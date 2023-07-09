@@ -38,6 +38,7 @@ class Piece:
     def get_allowed_poses(self) -> List[List]:
         pass
 
+    # This method checks if the specified square is available for the piece to move into
     def is_allowed_pos(self, new_i: int, new_j: int):
         return [new_i, new_j] in self.get_allowed_poses()
 
