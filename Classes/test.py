@@ -1,14 +1,13 @@
 import sys
 import os
 
-sys.path.append(os.getcwd() + "/Classes")
-sys.path.append(os.getcwd() + "/Classes/Pieces")
+sys.path.append(os.getcwd() + "/Pieces")
 
-import Board
-import Piece
+import board
+import piece
 
 # Create a new board
-board = Board.Board()
+board = board.Board()
 # Print the updated board
 txt = "{0}              , {1}              , {2}              , {3}              , {4}              , {5}              , {6}              , {7}              \n"
 for row in board.board:
@@ -16,8 +15,8 @@ for row in board.board:
 print("nigga\n")
 
 # Create some pieces
-piece1 = Piece.Piece(2, 3, is_white=True)
-piece2 = Piece.Piece(5, 6, is_white=False)
+piece1 = piece.Piece(2, 3, is_white=True)
+piece2 = piece.Piece(5, 6, is_white=False)
 
 # Place pieces on the board
 piece1.place_on_board(board)
@@ -43,7 +42,7 @@ for row in board.board:
 print("nigga\n")
 
 # Capture an enemy piece
-enemy_piece = Piece.Piece(4, 5, is_white=False)
+enemy_piece = piece.Piece(4, 5, is_white=False)
 board.place_on_board(enemy_piece.i, enemy_piece.j, enemy_piece)
 txt = "{0}              , {1}              , {2}              , {3}              , {4}              , {5}              , {6}              , {7}              \n"
 for row in board.board:

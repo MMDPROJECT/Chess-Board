@@ -1,10 +1,4 @@
-import sys
-import os
-
-sys.path.append(os.getcwd() + "/Classes")
-sys.path.append(os.getcwd() + "/Classes/Pieces")
-
-import Board
+from typing import List
 
 class Piece:
     def __init__(self, i: int, j: int, is_white: bool):
@@ -13,12 +7,12 @@ class Piece:
         self.is_white = is_white
 
     # This method places a piece on the board
-    def place_on_board(self, board: Board):
+    def place_on_board(self, board):
         # Calling board method to place the piece on itself
         board.place_on_board(self.i, self.j, self)
 
     # This method moves a piece on the chess-board
-    def move_to_position(self, board: Board, new_i: int, new_j: int):
+    def move_to_position(self, board, new_i: int, new_j: int):
         # Calling board method to empty the square in itself
         board.empty_square(self.i, self.j)
         # Renewing the ally position
@@ -28,7 +22,7 @@ class Piece:
         board.place_on_board(self.i, self.j, self)
 
     # This method capures an enemy piece
-    def capture(self, board : Board, enemy_i : int, enemy_j : int, enemy_piece : 'Piece'):
+    def capture(self, board, enemy_i : int, enemy_j : int, enemy_piece : 'Piece'):
         # Empty both ally square and enemy square first
         board.empty_square(self.i, self.j)
         board.empty_square(enemy_i, enemy_j)
@@ -40,10 +34,12 @@ class Piece:
         # Releasing the memory that has been taken by enemy piece 
         del enemy_piece 
         
-
     # This should be overrided in child classes
-    def get_allowed_poses(self):
+    def get_allowed_poses(self) -> List[List]:
         pass
+
+    def is_allowed_pos(self, new_i: int, new_j: int):
+        return [new_i, new_j] in self.get_allowed_poses()
 
     def __call__(self):
         return f"peice with i:{self.i} j:{self.j} and is_white{self.is_white}"

@@ -1,11 +1,6 @@
 import sys
 import os
 
-sys.path.append(os.getcwd() + "/Classes")
-sys.path.append(os.getcwd() + "/Classes/Pieces")
-
-import Piece
-
 from typing import List
 
 class Board:
@@ -40,7 +35,7 @@ class Board:
         # TODO
         pass
 
-    def place_on_board(self, piece_i : int, piece_j : int, piece : Piece):
+    def place_on_board(self, piece_i : int, piece_j : int, piece):
         self.board[piece_i][piece_j] = piece
 
     def empty_square(self, piece_i: int, piece_j: int):
@@ -48,3 +43,10 @@ class Board:
             self.board[piece_i][piece_j] = 0  # 0 means empty white square
         else :
             self.board[piece_i][piece_j] = 1  # 1 means empty black square
+
+    def get_peice_at_pos(self, piece_i: int, piece_j: int):
+        return self[piece_i][piece_j]
+    
+    def is_piece_at_pos(self, pos_i: int, pos_j: int):
+        return isinstance(self.board[pos_i][pos_j], __import__("piece").Piece)
+    

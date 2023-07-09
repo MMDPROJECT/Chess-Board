@@ -1,11 +1,11 @@
 import sys
 import os
 
-sys.path.append(os.getcwd() + "/Classes")
+sys.path.append(os.getcwd() + "../")
+print(sys.path)
 
-import Classes.Pieces.piece as piece
-import Classes.board as board
-
+import piece
+from Classes import board
 from typing import List
 
 class Pawn(piece.Piece):
