@@ -1,9 +1,10 @@
-from sys import path
-from os import getcwd
+import sys
+import os
 
-path.append(getcwd() + "./Classes/Peices")
+sys.path.append(os.getcwd() + "/Classes")
+sys.path.append(os.getcwd() + "/Classes/Pieces")
 
-from Pieces import Piece
+import Piece
 
 from typing import List
 
