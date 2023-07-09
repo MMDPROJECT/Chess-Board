@@ -1,11 +1,10 @@
-from sys import path
-from os import getcwd
+import sys
+import os
 
-path.append(getcwd())
-path.append(getcwd() + "./Classes/Peices")
+sys.path.append(os.getcwd() + "/Classes")
+sys.path.append(os.getcwd() + "/Classes/Pieces")
 
 import Board
-from typing import Any, List
 
 class Piece:
     def __init__(self, i: int, j: int, is_white: bool):
@@ -43,8 +42,8 @@ class Piece:
         
 
     # This should be overrided in child classes
-    def get_moving_poses(self):
+    def get_allowed_poses(self):
         pass
-    
+
     def __call__(self):
         return f"peice with i:{self.i} j:{self.j} and is_white{self.is_white}"

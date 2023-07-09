@@ -5,6 +5,8 @@ path.append(getcwd() + "./Classes/Peices")
 
 from Pieces import Piece
 
+from typing import List
+
 class Board:
     def __init__(self):
         self.board = [
@@ -25,11 +27,13 @@ class Board:
         self.place_blacks()
         pass
 
-    def place_whites(self):
+    def place_whites():
         # TODO
         pass
-
-    # Define methods to construct white and places (they would be called by place whites and blacks)
+    
+    @staticmethod
+    def cnstr_whites() -> List[List]:
+        pass
 
     def place_blacks(self):
         # TODO

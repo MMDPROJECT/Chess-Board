@@ -1,11 +1,11 @@
-from sys import path
-from os import getcwd
+import sys
+import os
 
-path.append(getcwd())
-path.append(getcwd() + "./Classes/Peices")
+sys.path.append(os.getcwd() + "/Classes")
+sys.path.append(os.getcwd() + "/Classes/Pieces")
 
 import Board
-from Pieces import Piece
+import Piece
 
 # Create a new board
 board = Board.Board()
