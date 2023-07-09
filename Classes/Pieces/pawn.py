@@ -1,11 +1,11 @@
 import sys
 import os
-
-sys.path.append(os.getcwd() + "../")
-print(sys.path)
+# Adding the path of parent directory (Classes) to the paths
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
-from Classes import board
+import board
+
 from typing import List
 
 class Pawn(piece.Piece):
