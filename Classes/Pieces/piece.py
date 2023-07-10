@@ -34,7 +34,7 @@ class Piece:
         # Releasing the memory that has been taken by enemy piece 
         del enemy_piece 
         
-    # This should be overrided in child classes
+    # This method annonces all the possible moves
     def get_allowed_poses(self) -> List[List]:
         pass
 

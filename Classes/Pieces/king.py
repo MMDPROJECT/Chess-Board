@@ -13,7 +13,7 @@ class King(piece.Piece):
         self.is_checked = False
         self.is_check_mated = False
 
-    # Override
+    # This method annonces all the possible moves
     def get_allowed_poses(self, board) -> List[List]:
         allowed_moves = []
         

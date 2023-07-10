@@ -29,14 +29,18 @@ class Board:
         ]
         self.cnstr_board()
 
+    # This method constructs the board
     def cnstr_board(self):
-        self.place_whites(Board.cnstr_whites())
-        self.place_blacks(Board.cnstr_blacks())
+        # Constructing all the pieces and placing them...
+        self.place_pieces(Board.cnstr_whites())
+        self.place_pieces(Board.cnstr_blacks())
 
-    def place_whites(self, white_pieces):
-        for piece in white_pieces:
+    # This method places all the pieces on the chess-board
+    def place_pieces(self, pieces):
+        for piece in pieces:
             piece.place_on_board(self)
     
+    # This method constructs all the white pieces
     @staticmethod
     def cnstr_whites() -> List:
         white_pieces = []
@@ -85,10 +89,7 @@ class Board:
 
         return white_pieces
 
-    def place_blacks(self, black_pieces):
-        for piece in black_pieces:
-            piece.place_on_board(self)
-
+    # This method constructs all the black pieces
     @staticmethod
     def cnstr_blacks() -> List:
         black_pieces = []

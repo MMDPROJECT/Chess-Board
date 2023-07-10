@@ -11,7 +11,7 @@ class Knight(piece.Piece):
     def __init__(self, i: int, j: int, is_white: bool):
         super().__init__(i, j, is_white)
 
-    # Override
+    # This method annonces all the possible moves
     def get_allowed_poses(self, board) -> List[List]:
         allowed_moves = []
         

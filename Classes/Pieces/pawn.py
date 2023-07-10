@@ -12,12 +12,12 @@ class Pawn(piece.Piece):
         super().__init__(i, j, is_white)
         self.has_moved = False
 
-    # Override
+    # This method moves a pawn to a new position
     def move_to_position(self, board, new_i: int, new_j: int):
         super().move_to_position(board, new_i, new_j)
         self.has_moved = True
     
-    # Override
+    # This method annonces all the possible moves
     def get_allowed_poses(self, board) -> List[List]:        
         allowed_moves = []
         # For Whites (Top oriented team)
