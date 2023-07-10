@@ -55,4 +55,6 @@ class Pawn(piece.Piece):
 
             # Fourth possiblity (if there is a piece on right top diagonal)
             if not board.is_piece_at_pos(self.i - 1, self.j + 1):
-                allowed_moves.append([self.i - 1, self.j + 1])     
+                allowed_moves.append([self.i - 1, self.j + 1])  
+        
+        return allowed_moves
