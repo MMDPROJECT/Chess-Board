@@ -16,28 +16,28 @@ class Rook(piece.Piece):
     def get_allowed_poses(self, board: board.Board) -> List[List]:
         allowed_moves = []
         
-        # First options are to move up
+        # First option is to move up
         i = self.i - 1
         j = self.j
         while 0 <= i <= 8 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i -= 1
         
-        # Second options are to move down
+        # Second option is to move down
         i = self.i + 1
         j = self.j
         while 0 <= i <= 8 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i += 1
 
-        # First options are to move right
+        # Third option is to move right
         i = self.i
         j = self.j + 1
         while 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             j += 1
         
-        # First options are to move up
+        # Fourth option is to move up
         i = self.i
         j = self.j - 1
         while 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
