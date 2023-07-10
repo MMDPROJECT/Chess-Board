@@ -53,5 +53,8 @@ class Board:
     
     # This method checks to see if there is any piece on the specifed square
     def is_piece_at_pos(self, pos_i: int, pos_j: int):
-        return isinstance(self.board[pos_i][pos_j], __import__("piece").Piece)
+        try:
+            return isinstance(self.board[pos_i][pos_j], __import__("piece").Piece)
+        except IndexError:
+            return True
     
