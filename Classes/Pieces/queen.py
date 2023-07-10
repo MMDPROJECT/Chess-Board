@@ -4,7 +4,6 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
-import board
 
 from typing import List
 
@@ -13,7 +12,7 @@ class Queen(piece.Piece):
         super().__init__(i, j, is_white)
 
     # Override
-    def get_allowed_poses(self, board: board.Board) -> List[List]:
+    def get_allowed_poses(self, board) -> List[List]:
         allowed_moves = []
         
         # Bishop-like moves
@@ -80,3 +79,6 @@ class Queen(piece.Piece):
             j -= 1
 
         return allowed_moves
+    
+    def __str__(self):
+        return "queen"

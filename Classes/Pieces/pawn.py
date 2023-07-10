@@ -4,7 +4,6 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
-import board
 
 from typing import List
 
@@ -14,12 +13,12 @@ class Pawn(piece.Piece):
         self.has_moved = False
 
     # Override
-    def move_to_position(self, board: board.Board, new_i: int, new_j: int):
+    def move_to_position(self, board, new_i: int, new_j: int):
         super().move_to_position(board, new_i, new_j)
         self.has_moved = True
     
     # Override
-    def get_allowed_poses(self, board: board.Board) -> List[List]:
+    def get_allowed_poses(self, board) -> List[List]:        
         allowed_moves = []
         # For Whites (Top oriented team)
         if self.is_white:
@@ -58,3 +57,6 @@ class Pawn(piece.Piece):
                 allowed_moves.append([self.i - 1, self.j + 1])  
         
         return allowed_moves
+
+    def __str__(self):
+        return "pawn"
