@@ -18,49 +18,49 @@ class Knight(piece.Piece):
         # First option is to move two squares up and then one square left
         i = self.i - 2
         j = self.j - 1
-        if 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        if 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
         
         # Second option is to move two squares up and then one square right
         i = self.i - 2
         j = self.j + 1
-        if 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        if 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
 
         # Third option is to move two square right and then one square up
         i = self.i - 1
         j = self.j + 2
-        if 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        if 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
 
         # Fourth option is to move two square right and then one square down
         i = self.i + 1
         j = self.j + 2
-        if 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        if 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
 
         # Fifth option is to move two square down and then one square right
         i = self.i + 2
         j = self.j + 1 
-        if 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        if 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
 
         # Sixth option is to move two square down and then one square left
         i = self.i + 2
         j = self.j - 1
-        if 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        if 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
 
         # Seventh option is to move two square left and then one square down
         i = self.i + 1
         j = self.j - 2
-        if 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        if 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
 
         # Eighth option is to move two square left and then one square up
         i = self.i - 1
         j = self.j - 2
-        if 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        if 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
 
         return allowed_moves

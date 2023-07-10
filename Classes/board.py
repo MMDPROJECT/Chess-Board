@@ -144,7 +144,7 @@ class Board:
     # This methods empties the square that has been taken by a piece
     def empty_square(self, piece_i: int, piece_j: int):
         # Check to see that should be white or black
-        if piece_i + piece_j % 2 == 0:
+        if (piece_i + piece_j) % 2 == 0:
             self.board[piece_i][piece_j] = 0  # 0 means empty white square
         else :
             self.board[piece_i][piece_j] = 1  # 1 means empty black square

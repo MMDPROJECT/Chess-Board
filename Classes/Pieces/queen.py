@@ -19,7 +19,7 @@ class Queen(piece.Piece):
         # First option is to move to right top diagonal
         i = self.i - 1
         j = self.j + 1
-        while 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i -= 1
             j += 1
@@ -27,7 +27,7 @@ class Queen(piece.Piece):
         # Second option is to move to right bottom diagonal
         i = self.i + 1
         j = self.j + 1
-        while 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i += 1
             j += 1
@@ -35,7 +35,7 @@ class Queen(piece.Piece):
         # Third option is to move to left bottom diagonal
         i = self.i + 1
         j = self.j - 1
-        while 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i += 1
             j -= 1
@@ -43,7 +43,7 @@ class Queen(piece.Piece):
         # Fourth option is to move to left top diagonal
         i = self.i - 1
         j = self.j - 1
-        while 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i -= 1
             j -= 1
@@ -53,28 +53,28 @@ class Queen(piece.Piece):
         # Fifth option is to move up
         i = self.i - 1
         j = self.j
-        while 0 <= i <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i -= 1
         
         # Sixth option is to move down
         i = self.i + 1
         j = self.j
-        while 0 <= i <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i += 1
 
         # Seventh option is to move right
         i = self.i
         j = self.j + 1
-        while 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             j += 1
         
         # Eighth option is to move up
         i = self.i
         j = self.j - 1
-        while 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             j -= 1
 

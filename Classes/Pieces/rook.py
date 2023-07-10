@@ -18,28 +18,28 @@ class Rook(piece.Piece):
         # First option is to move up
         i = self.i - 1
         j = self.j
-        while 0 <= i <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i -= 1
         
         # Second option is to move down
         i = self.i + 1
         j = self.j
-        while 0 <= i <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i += 1
 
         # Third option is to move right
         i = self.i
         j = self.j + 1
-        while 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             j += 1
         
         # Fourth option is to move up
         i = self.i
         j = self.j - 1
-        while 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             j -= 1
 

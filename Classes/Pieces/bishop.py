@@ -18,7 +18,7 @@ class Bishop(piece.Piece):
         # First option is to move to right top diagonal
         i = self.i - 1
         j = self.j + 1
-        while 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i -= 1
             j += 1
@@ -26,7 +26,7 @@ class Bishop(piece.Piece):
         # Second option is to move to right bottom diagonal
         i = self.i + 1
         j = self.j + 1
-        while 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i += 1
             j += 1
@@ -34,7 +34,7 @@ class Bishop(piece.Piece):
         # Third option is to move to left bottom diagonal
         i = self.i + 1
         j = self.j - 1
-        while 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i += 1
             j -= 1
@@ -42,7 +42,7 @@ class Bishop(piece.Piece):
         # Fourth option is to move to left top diagonal
         i = self.i - 1
         j = self.j - 1
-        while 0 <= i <= 8 and 0 <= j <= 8 and not board.is_piece_at_pos(i, j):
+        while 0 <= i <= 7 and 0 <= j <= 7 and not board.is_piece_at_pos(i, j):
             allowed_moves.append([i, j])
             i -= 1
             j -= 1
