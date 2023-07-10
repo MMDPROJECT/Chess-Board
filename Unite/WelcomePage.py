@@ -2,7 +2,11 @@ from flet import *
 import flet
 import time
 import math
+
+change_color = ["red","green","blue"] #rgb color cross of the square
+
 class Animated(UserControl):
+    
     
     def __init__ (self , border_color , bg_color , rotate_angle):  #early after you run this class it comes here first
         
@@ -29,7 +33,7 @@ def main(page: Page):
     page.title = "WelcomePage"
     page.horizontal_alignment = "center"
     page.veritical_alignment = "center" 
-    page.bgcolor = "black"
+    page.bgcolor = "#181818"
     
     def animate():
         clock_wise_rotate = math.pi/4
@@ -39,8 +43,9 @@ def main(page: Page):
         box2 = page.controls[0].content.content.controls[1].controls[1].controls[0]
         
         counter = 0
+        color_index = 0
         while True:
-            
+    
             if counter >= 0 and counter <= 4:
                 
                 box1.rotate = transform.Rotate(
@@ -49,8 +54,9 @@ def main(page: Page):
                 box2.rotate = transform.Rotate(
                     clock_wise_rotate , alignment.center
                 )
+                
                 box1.update()
-                box2.update()
+                box2.update()        
                 
                 clock_wise_rotate+= math.pi/2
                 counter_clock_wise_rotate -= math.pi/2
@@ -69,6 +75,7 @@ def main(page: Page):
                  box2.rotate = transform.Rotate(
                     clock_wise_rotate , alignment.center
                  )
+                 
                  box1.update()
                  box2.update()
                  
@@ -78,21 +85,22 @@ def main(page: Page):
             if counter > 10:
                 counter = 0
                 
+            #color_index = (color_index + 1) % len(change_color)
+            #box1.content.border.color = change_color[color_index]
+                
                     
 
     #Controller
     page.add(
         Card(
-            width = 500,
-            height = 550,
-            #elevation = 15,
-            #Animated("#e9665a",None,0),
-            #Animated("#7df6dd","#23262a",math.pi/4),
+            width = 650,
+            height = 560,
+            elevation = 15,
             #make each ui
             content = Container(
                 
                 bgcolor = "#181818",
-                border_radius = 15, # NOTE : it should be int not string
+                border_radius = 10, # NOTE : it should be int not string
                 
                 content=Column(
                     
@@ -103,8 +111,8 @@ def main(page: Page):
                         Stack(
                             controls = [
                                 #it is the animation part
-                                Animated("#e9665a",None,0),
-                                Animated("#7df6dd","#23262a",math.pi/4),
+                                Animated("#FFFFFF",None,0),
+                                Animated("#FFFFFF",None,math.pi/4),
                             ],
                             ),
                         Divider(height=20,color="transparent"),   
