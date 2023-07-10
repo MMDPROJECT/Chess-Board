@@ -5,6 +5,103 @@ import math
 
 change_color = ["red","green","blue"] #rgb color cross of the square
 
+class NewGame(UserControl):
+    
+    def __init__(self ,btnName):
+        super().__init__()
+        self.btnName = btnName
+        
+    def build(self):
+        return Container(
+            content=ElevatedButton(
+                content = Text(self.btnName,size =13,weight = "bold"),
+                style=ButtonStyle(
+                    shape={
+                        "":RoundedRectangleBorder(radius=8),
+                    },
+                    color={
+                        "" : "white",
+                    },
+                    bgcolor={"":"#181818"},
+                ),
+                height=42,
+                width=320,
+            )
+        )
+        
+class LoadGame(UserControl):
+    
+    def __init__(self ,btnName):
+        super().__init__()
+        self.btnName = btnName
+        
+    def build(self):
+        return Container(
+            content=ElevatedButton(
+                content = Text(self.btnName,size =13,weight = "bold"),
+                style=ButtonStyle(
+                    shape={
+                        "":RoundedRectangleBorder(radius=8),
+                    },
+                    color={
+                        "" : "white",
+                    },
+                    bgcolor={"":"#181818"},
+                ),
+                height=42,
+                width=320,
+            )
+        )
+        
+class ScoreBoard(UserControl):
+    
+    def __init__(self ,btnName):
+        super().__init__()
+        self.btnName = btnName
+        
+    def build(self):
+        return Container(
+            content=ElevatedButton(
+                content = Text(self.btnName,size =13,weight = "bold"),
+                style=ButtonStyle(
+                    shape={
+                        "":RoundedRectangleBorder(radius=8),
+                    },
+                    color={
+                        "" : "white",
+                    },
+                    bgcolor={"":"#181818"},
+                ),
+                height=42,
+                width=320,
+            )
+        )
+        
+class Exit(UserControl):
+    
+    def __init__(self ,btnName):
+        super().__init__()
+        self.btnName = btnName
+        
+    def build(self):
+        return Container(
+            content=ElevatedButton(
+                content = Text(self.btnName,size =13,weight = "bold"),
+                style=ButtonStyle(
+                    shape={
+                        "":RoundedRectangleBorder(radius=8),
+                    },
+                    color={
+                        "" : "white",
+                    },
+                    bgcolor={"":"#181818"},
+                ),
+                height=42,
+                width=320,
+            )
+        )
+    
+        
 class Animated(UserControl):
     
     
@@ -18,8 +115,8 @@ class Animated(UserControl):
     def build(self):
         
         return Container(
-            width=400,
-            height=450,
+            width=40,
+            height=40,
             border=border.all(2.5,self.border_color),
             bgcolor=self.bg_color, #short form of background color
             border_radius=2,
@@ -115,8 +212,25 @@ def main(page: Page):
                                 Animated("#FFFFFF",None,math.pi/4),
                             ],
                             ),
-                        Divider(height=20,color="transparent"),   
-          
+                        Divider(height=20,color="transparent"),
+                        #Let's introduce the menu
+                        Column(
+                            alignment=MainAxisAlignment.CENTER,
+                            horizontal_alignment=CrossAxisAlignment.CENTER,
+                            spacing=5,
+                            controls=[
+                                Text("CHESS GAME TEAM", size = 22,weight="bold"),
+                                
+                            ]
+                            
+                        ),
+                        Divider(height=20,color="transparent"),
+                        NewGame("New Game"),
+                        LoadGame("Load Game"),
+                        ScoreBoard("Score Board"),
+                        Exit("Exit"),
+                        
+                        
                     ],
                     
                 ),
