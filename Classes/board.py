@@ -161,3 +161,22 @@ class Board:
         except IndexError:
             return True
     
+    # This method check if a square is already targeted
+    def is_square_targeted(self, is_attacker_white: bool, square_i: int, square_j: int):
+        # A list that contains all the possible moves of the attacker team
+        allowed_moves = []
+        # Loop to get all the rows of the board
+        for row in self.board:
+            # Loop to get all the square of a row
+            for square in row:
+                # Check to see if there is a piece on the square
+                if isinstance(square, piece.Piece):
+                    # Check to see if the found piece is in the attacker team
+                    if square.is_white == is_attacker_white:
+                        # Adding all the possible moves of the piece to the list
+                        allowed_moves.extend(square.get_allowed_poses())
+        # Check to see if the square is under the attack
+        if [square_i, square_j] in allowed_moves:
+            return True
+
+    

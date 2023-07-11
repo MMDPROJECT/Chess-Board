@@ -53,6 +53,14 @@ class King(piece.Piece):
     
     def __str__(self):
         return "king"
+    
+    # This will change 'is_checked' state of the king 
+    def set_check(self, is_checked: bool):
+        self.is_checked = is_checked
+
+    # This will check mate the king
+    def check_mate(self):
+        self.is_check_mated = True
 
 
 
