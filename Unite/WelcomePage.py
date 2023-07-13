@@ -2,6 +2,8 @@ from flet import *
 import flet
 import time
 import math
+import sys; print(sys.path)
+from HandlerPages import handler
 
 change_color = ["red","green","blue"] #rgb color cross of the square
 
@@ -26,9 +28,11 @@ class NewGame(UserControl):
                 ),
                 height=42,
                 width=320,
+                
             )
         )
-        
+
+               
 class LoadGame(UserControl):
     
     def __init__(self ,btnName):
@@ -124,6 +128,7 @@ class Animated(UserControl):
             animate_rotation=animation.Animation(700,"caseInOut"),
         )
         
+      
 def main(page: Page):
        
     #Design the mainPage
@@ -131,6 +136,16 @@ def main(page: Page):
     page.horizontal_alignment = "center"
     page.veritical_alignment = "center" 
     page.bgcolor = "#181818"
+    
+    #Go to other pages
+    def route_change(route):
+     page.HandlerPages.clear()
+     page.HandlerPages.append(
+         handler(page)[page.route] #functionality like dictionary
+    
+     )
+     page.on_route_change = route_change
+     page.go('/')
     
     def animate():
         clock_wise_rotate = math.pi/4
@@ -219,7 +234,7 @@ def main(page: Page):
                             horizontal_alignment=CrossAxisAlignment.CENTER,
                             spacing=5,
                             controls=[
-                                Text("CHESS GAME TEAM", size = 22,weight="bold"),
+                                Text("♜ CHESS GAME TEAM ♖ ", size = 22,weight="bold"),
                                 
                             ]
                             
@@ -238,6 +253,7 @@ def main(page: Page):
             ),
         ),
     )
+    
     
     pass
     animate()
