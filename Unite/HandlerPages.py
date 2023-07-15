@@ -1,11 +1,11 @@
 from flet import *
-from pages.NewGame import Newgame
+import NewGame
 def handler(page):
     return{
         '/':View(
         route='/',
         controls=[
-            Newgame(page)
+            NewGame.Newgame(page)
             ]
         ),
     }
