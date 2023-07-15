@@ -2,6 +2,7 @@ import flet as ft
 import time
 import math
 
+
 class Animated(ft.UserControl):
     
     
@@ -33,13 +34,9 @@ def main(page: ft.Page):
     
     #Go to other pages
     def route_change(route):
-     page.HandlerPages.clear()
-     page.HandlerPages.append(
-         handler(page)[page.route] #functionality like dictionary
-    
-     )
-     page.on_route_change = route_change
-     page.go('/')
+        # TODO
+        pass
+
     
     def animate():
         clock_wise_rotate = math.pi/4

@@ -1,22 +1,22 @@
-from flet import *
+import flet as ft
 
-class Newgame(UserControl):
+class NewGame(ft.UserControl):
     def __init__(self,page):
         super().__init__()
         self.page = page
         
     def build(self):
-        return Column(
+        return ft.Column(
             controls=[
-                Container(
+                ft.Container(
                     height=800,width=200,
                     bgcolor='red',
-                    content=Column(
+                    content=ft.Column(
                         controls=[
-                            Text('hi'),
-                            Container(
+                            ft.Text('hi'),
+                            ft.Container(
                                 on_click= lambda _: self.page.go('/LoadGame'),
-                                content=Text('back',size=20,color='black')
+                                content=ft.Text('back',size=20,color='black')
                                 
                             )
                         ]
