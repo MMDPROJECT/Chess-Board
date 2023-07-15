@@ -2,104 +2,6 @@ import flet as ft
 import time
 import math
 
-class NewGame(ft.UserControl):
-    
-    def __init__(self ,btnName):
-        super().__init__()
-        self.btnName = btnName
-        
-    def build(self):
-        return ft.Container(
-            content=ft.ElevatedButton(
-                content = ft.Text(self.btnName, size=13, weight="bold"),
-                style=ft.ButtonStyle(
-                    shape={
-                        "":ft.RoundedRectangleBorder(radius=8),
-                    },
-                    color={
-                        "" : "white",
-                    },
-                    bgcolor={"":"#181818"},
-                ),
-                height=42,
-                width=320  
-            )
-        )
-
-               
-class LoadGame(ft.UserControl):
-    
-    def __init__(self ,btnName):
-        super().__init__()
-        self.btnName = btnName
-        
-    def build(self):
-        return ft.Container(
-            content=ft.ElevatedButton(
-                content=ft.Text(self.btnName, size=13, weight="bold"),
-                style=ft.ButtonStyle(
-                    shape={
-                        "":ft.RoundedRectangleBorder(radius=8),
-                    },
-                    color={
-                        "" : "white",
-                    },
-                    bgcolor={"":"#181818"},
-                ),
-                height=42,
-                width=320
-            )
-        )
-        
-class ScoreBoard(ft.UserControl):
-    
-    def __init__(self ,btnName):
-        super().__init__()
-        self.btnName = btnName
-        
-    def build(self):
-        return ft.Container(
-            content=ft.ElevatedButton(
-                content = ft.Text(self.btnName, size=13, weight="bold"),
-                style=ft.ButtonStyle(
-                    shape={
-                        "":ft.RoundedRectangleBorder(radius=8),
-                    },
-                    color={
-                        "" : "white",
-                    },
-                    bgcolor={"":"#181818"},
-                ),
-                height=42,
-                width=320
-            )
-        )
-        
-class Exit(ft.UserControl):
-    
-    def __init__(self ,btnName):
-        super().__init__()
-        self.btnName = btnName
-        
-    def build(self):
-        return ft.Container(
-            content=ft.ElevatedButton(
-                content = ft.Text(self.btnName, size=13, weight="bold"),
-                style=ft.ButtonStyle(
-                    shape={
-                        "":ft.RoundedRectangleBorder(radius=8),
-                    },
-                    color={
-                        "" : "white",
-                    },
-                    bgcolor={"":"#181818"},
-                ),
-                height=42,
-                width=320,
-            )
-        )
-    
-        
 class Animated(ft.UserControl):
     
     
@@ -122,9 +24,7 @@ class Animated(ft.UserControl):
             animate_rotation=ft.animation.Animation(700,"caseInOut"),
         )
         
-      
 def main(page: ft.Page):
-       
     #Design the mainPage
     page.title = "WelcomePage"
     page.horizontal_alignment = "center"
@@ -194,23 +94,21 @@ def main(page: ft.Page):
             #color_index = (color_index + 1) % len(change_color)
             #box1.content.border.color = change_color[color_index]
                 
-    #Controller
+    # Building controls
     page.add(
+        # A card containing everything
         ft.Card(
             width=650,
             height=560,
             elevation=15,
-            #make each ui
             content=ft.Container(
-                
                 bgcolor="#181818",
                 border_radius=10, # NOTE : it should be int not string
-                
+                # A column to layout things in vertical manner
                 content=ft.Column(
                     
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     controls=[
-                        #main controller
                         ft.Divider(height=40,color="transparent"),
                         ft.Stack(
                             controls = [
@@ -230,10 +128,79 @@ def main(page: ft.Page):
                             ]
                         ),
                         ft.Divider(height=20,color="transparent"),
-                        NewGame("New Game"),
-                        LoadGame("Load Game"),
-                        ScoreBoard("Score Board"),
-                        Exit("Exit"),
+
+                        # New Game container
+                        ft.Container(
+                            content=ft.ElevatedButton(
+                                content = ft.Text("New Game", size=13, weight="bold"),
+                                style=ft.ButtonStyle(
+                                    shape={
+                                        "":ft.RoundedRectangleBorder(radius=8),
+                                    },
+                                    color={
+                                        "" : "white",
+                                    },
+                                    bgcolor={"":"#181818"},
+                                ),
+                                height=42,
+                                width=320,
+                                on_click=lambda _:page.go("")  
+                            )
+                        ),
+
+                        # Load Game container
+                        ft.Container(
+                            content=ft.ElevatedButton(
+                                content=ft.Text("Load Game", size=13, weight="bold"),
+                                style=ft.ButtonStyle(
+                                    shape={
+                                        "":ft.RoundedRectangleBorder(radius=8),
+                                    },
+                                    color={
+                                        "" : "white",
+                                    },
+                                    bgcolor={"":"#181818"},
+                                ),
+                                height=42,
+                                width=320
+                            )
+                        ),
+
+                        # Score Board container
+                        ft.Container(
+                            content=ft.ElevatedButton(
+                                content = ft.Text("Score Board", size=13, weight="bold"),
+                                style=ft.ButtonStyle(
+                                    shape={
+                                        "":ft.RoundedRectangleBorder(radius=8),
+                                    },
+                                    color={
+                                        "" : "white",
+                                    },
+                                    bgcolor={"":"#181818"},
+                                ),
+                                height=42,
+                                width=320
+                            )
+                        ),
+
+                        # Exit Container
+                        ft.Container(
+                            content=ft.ElevatedButton(
+                                content = ft.Text("Exit", size=13, weight="bold"),
+                                style=ft.ButtonStyle(
+                                    shape={
+                                        "":ft.RoundedRectangleBorder(radius=8),
+                                    },
+                                    color={
+                                        "" : "white",
+                                    },
+                                    bgcolor={"":"#181818"},
+                                ),
+                                height=42,
+                                width=320,
+                            )
+                        ),
                     ],
                 ),
             ),
