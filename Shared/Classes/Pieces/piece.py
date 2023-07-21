@@ -1,5 +1,3 @@
-from typing import List
-
 class Piece:
     def __init__(self, i: int, j: int, is_white: bool):
         self.i = i
@@ -35,7 +33,7 @@ class Piece:
         del enemy_piece 
         
     # This method annonces all the possible moves
-    def get_allowed_poses(self) -> List[List]:
+    def get_allowed_poses(self) -> list[list]:
         pass
 
     # This method checks if the specified square is available for the piece to move into

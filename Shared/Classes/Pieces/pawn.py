@@ -5,8 +5,6 @@ sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
 
-from typing import List
-
 class Pawn(piece.Piece):
     def __init__(self, i: int, j: int, is_white: bool):
         super().__init__(i, j, is_white)
@@ -18,7 +16,7 @@ class Pawn(piece.Piece):
         self.has_moved = True
     
     # This method annonces all the possible moves
-    def get_allowed_poses(self, board) -> List[List]:        
+    def get_allowed_poses(self, board) -> list[list]:        
         allowed_moves = []
         # For Whites (Top oriented team)
         if self.is_white:

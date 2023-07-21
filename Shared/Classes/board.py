@@ -11,8 +11,6 @@ import bishop
 import queen
 import king
 
-from typing import List
-
 class Board:
     def __init__(self):
         self.board = [
@@ -42,7 +40,7 @@ class Board:
     
     # This method constructs all the white pieces
     @staticmethod
-    def cnstr_whites() -> List:
+    def cnstr_whites() -> list:
         white_pieces = []
         # Pawns
         pawn_white_0 = pawn.Pawn(1, 0, True)
@@ -91,7 +89,7 @@ class Board:
 
     # This method constructs all the black pieces
     @staticmethod
-    def cnstr_blacks() -> List:
+    def cnstr_blacks() -> list:
         black_pieces = []
         # Pawns
         pawn_black_0 = pawn.Pawn(6, 0, False)
