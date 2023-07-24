@@ -1,6 +1,6 @@
 import sys
 import os
-
+import pygame
 sys.path.append(os.getcwd() + "/Pieces")
 
 import piece
@@ -12,6 +12,12 @@ import queen
 import king
 
 from typing import List
+
+width, height = 512,512
+square_size = width // 8
+window = pygame.display.set_mode((width, height))
+
+colors = [(255,255,255),(0,0,0)] 
 
 class Board:
     def __init__(self):
@@ -178,5 +184,27 @@ class Board:
         # Check to see if the square is under the attack
         if [square_i, square_j] in allowed_moves:
             return True
+        
+    def draw_color(self):
+        #color each square
+        for square_w in range(8):
+            for square_b in range(8):
+                if (square_w + square_b)% 2 == 0:
+                   color = colors[1]
+                else:
+                   color = colors[0]
+                
+                square_rect = pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size)
+                pygame.draw.rect(window, color, square_rect)
 
-    
+        pygame.display.update()
+                    
+                    
+    def set_pieces(self):
+        looking_good_man = self.cnstr_blacks()
+        for black in looking_good_man: 
+            print(black , end="")
+            
+                    
+        
+        
