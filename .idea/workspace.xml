@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35ce2b3c-591f-43bb-9393-8d333940be7b" name="Changes" comment="SAVE IMG+wrong choice(as my fault)">
-      <change beforePath="$PROJECT_DIR$/Shared/Classes/board.py" beforeDir="false" />
+    <list default="true" id="35ce2b3c-591f-43bb-9393-8d333940be7b" name="Changes" comment="for check">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shared/Classes/Pieces/board.py" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Classes/Pieces/board.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shared/Classes/Pieces/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/Classes/Pieces/start.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1690051422597</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="for check">
+      <created>1690206794812</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1690206794812</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -135,8 +144,8 @@
     <MESSAGE value="correct welcomePage" />
     <MESSAGE value="eventually finish welcomePage" />
     <MESSAGE value="add navigation" />
-    <MESSAGE value="for check" />
     <MESSAGE value="SAVE IMG+wrong choice(as my fault)" />
-    <option name="LAST_COMMIT_MESSAGE" value="SAVE IMG+wrong choice(as my fault)" />
+    <MESSAGE value="for check" />
+    <option name="LAST_COMMIT_MESSAGE" value="for check" />
   </component>
 </project>

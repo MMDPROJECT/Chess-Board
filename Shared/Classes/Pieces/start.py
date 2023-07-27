@@ -4,24 +4,8 @@ import board
 
 
 pygame.display.set_caption("Board") #title name
-
-#set up image of pieces
-
-#black
-black_pawn = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_pdt60.png'))
-black_rook = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_rdt60.png'))
-black_king = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_qdt60.png'))
-black_knight = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_ndt60.png'))
-black_queen = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_kdt60.png'))
-black_bishop = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_bdt60.png'))
-
-#white
-white_pawn = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_plt60.png'))
-white_rook = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_rlt60.png'))
-white_king = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_qlt60.png'))
-white_knight = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_nlt60.png'))
-white_queen = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_klt60.png'))
-white_bishop = pygame.image.load(os.path.join('Shared/Classes/Image/Chess_blt60.png'))
+width, height = 512,512
+window = pygame.display.set_mode((width, height))
 
 display_board = board.Board()
 
@@ -31,10 +15,21 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-                
-        display_board.draw_color()   
-        display_board.set_pieces()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                find_mouse = pygame.mouse.get_pos()
+                #print(find_mouse[0]//64);print(find_mouse[1]//64)
+                display_board.find_piece(find_mouse)
+
+        display_board.draw_color(window)
+        display_board.set_pieces(window)
+
         
+
+    
+        pygame.display.update()
+    
+        
+    
     pygame.quit()
 
 

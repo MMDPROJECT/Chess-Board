@@ -12,12 +12,32 @@ import queen
 import king
 
 from typing import List
+move_piece = piece.Piece()
 
-width, height = 512,512
-square_size = width // 8
-window = pygame.display.set_mode((width, height))
+#set up image of pieces
 
-colors = [(255,255,255),(0,0,0)] 
+#black
+black_pawn = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_pdt60.png'))
+black_rook = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_rdt60.png'))
+black_king = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_qdt60.png'))
+black_knight = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_ndt60.png'))
+black_queen = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_kdt60.png'))
+black_bishop = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_bdt60.png'))
+
+#white
+white_pawn = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_plt60.png'))
+white_rook = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_rlt60.png'))
+white_king = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_qlt60.png'))
+white_knight = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_nlt60.png'))
+white_queen = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_klt60.png'))
+white_bishop = pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_blt60.png'))
+
+#window = pygame.
+
+square_size = 64
+colors = [(192, 192, 164),(96, 64, 32)] 
+
+
 
 class Board:
     def __init__(self):
@@ -185,8 +205,9 @@ class Board:
         if [square_i, square_j] in allowed_moves:
             return True
         
-    def draw_color(self):
-        #color each square
+    # This method color each square
+    def draw_color(self,window):
+
         for square_w in range(8):
             for square_b in range(8):
                 if (square_w + square_b)% 2 == 0:
@@ -196,15 +217,57 @@ class Board:
                 
                 square_rect = pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size)
                 pygame.draw.rect(window, color, square_rect)
+        
 
-        pygame.display.update()
+        
                     
+    # This method initiall the peices     
+    def set_pieces(self,window):
+        for square_w in range(8):
+            for square_b in range(8):
+                
+                # white
+                if self.board[square_w][square_b] == self.board[0][0] or self.board[square_w][square_b] == self.board[0][7]:
+                    window.blit(white_rook,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
                     
-    def set_pieces(self):
-        looking_good_man = self.cnstr_blacks()
-        for black in looking_good_man: 
-            print(black , end="")
-            
+                elif self.board[square_w][square_b] == self.board[0][1] or self.board[square_w][square_b] == self.board[0][6]:
+                     window.blit(white_knight,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                     
+                elif self.board[square_w][square_b] == self.board[0][2] or self.board[square_w][square_b] == self.board[0][5]:
+                    window.blit(white_bishop,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
                     
+                elif self.board[square_w][square_b] == self.board[0][3]:
+                     window.blit(white_queen,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                     
+                elif self.board[square_w][square_b] == self.board[0][4]:
+                    window.blit(white_king,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                    
+                elif square_w == 1:
+                     window.blit(white_pawn,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                
+                
+                # black    
+                elif self.board[square_w][square_b] == self.board[7][0] or self.board[square_w][square_b] == self.board[7][7]:
+                     window.blit(black_rook,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                     
+                elif self.board[square_w][square_b] == self.board[7][1] or self.board[square_w][square_b] == self.board[7][6]:
+                     window.blit(black_knight,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                     
+                elif self.board[square_w][square_b] == self.board[7][2] or self.board[square_w][square_b] == self.board[7][5]:
+                    window.blit(black_bishop,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                    
+                elif self.board[square_w][square_b] == self.board[7][3]:
+                     window.blit(black_queen,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                     
+                elif self.board[square_w][square_b] == self.board[7][4]:
+                    window.blit(black_king,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+                    
+                elif square_w == 6:
+                     window.blit(black_pawn,pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
         
         
+    def find_piece(self,find_mouse):
+        i = find_mouse[1] //64
+        j = find_mouse[0] // 64 
+        #print(i,j)
+        print(move_piece.move_to_position(self.board,i,j))
