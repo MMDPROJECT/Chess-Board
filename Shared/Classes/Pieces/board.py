@@ -25,19 +25,19 @@ window = pygame.display.set_mode((width, height))
 
 dict_images = {
     
-  "black_pawn": pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_pdt60.png')),
-  "black_rook": pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_rdt60.png')),
-  "black_king":  pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_qdt60.png')),
-  "black_knight":  pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_ndt60.png')),
-  "black_queen":  pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_kdt60.png')),
-  "black_bishop":  pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_bdt60.png')),
+  "black_pawn": pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_pdt60.png')),
+  "black_rook": pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_rdt60.png')),
+  "black_king":  pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_qdt60.png')),
+  "black_knight":  pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_ndt60.png')),
+  "black_queen":  pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_kdt60.png')),
+  "black_bishop":  pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_bdt60.png')),
   
-  "white_pawn" : pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_plt60.png')),
-  "white_rook" : pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_rlt60.png')),
-  "white_king" : pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_qlt60.png')),
-  "white_knight" : pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_nlt60.png')),
-  "white_queen" : pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_klt60.png')),
-  "white_bishop" : pygame.image.load(os.path.join('/Users/macbookpro/Chess-Board/Shared/Classes/Image/Chess_blt60.png')),
+  "white_pawn" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_plt60.png')),
+  "white_rook" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_rlt60.png')),
+  "white_king" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_qlt60.png')),
+  "white_knight" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_nlt60.png')),
+  "white_queen" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_klt60.png')),
+  "white_bishop" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_blt60.png')),
 
   
 }
@@ -171,11 +171,13 @@ class Board:
     # This methods places a piece on the board
     def place_on_board(self, piece_i : int, piece_j : int, piece):
         self.board[piece_i][piece_j] = piece
-        #print(piece)
         for square_w in range(8):
+            # print(f"{piece}")
             for square_b in range(8):
                 if self.board[square_w][square_b] == piece:
                     window.blit(dict_images[f"white_{piece}"],pygame.Rect(square_b * square_size , square_w * square_size , square_size , square_size))
+
+        # print("done nigga")
     
                 
     # This methods empties the square that has been taken by a piece
