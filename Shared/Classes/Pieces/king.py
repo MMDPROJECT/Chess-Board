@@ -5,8 +5,6 @@ sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
 
-from typing import List
-
 class King(piece.Piece):
     def __init__(self, i: int, j: int, is_white: bool):
         super().__init__(i, j, is_white)
@@ -14,7 +12,7 @@ class King(piece.Piece):
         self.is_check_mated = False
 
     # This method annonces all the possible moves
-    def get_allowed_poses(self, board) -> List[List]:
+    def get_allowed_poses(self, board) -> list[list]:
         allowed_moves = []
         
         # First option is to move to left top diagonal

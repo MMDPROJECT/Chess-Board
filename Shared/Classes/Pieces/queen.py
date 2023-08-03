@@ -5,14 +5,12 @@ sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
 
-from typing import List
-
 class Queen(piece.Piece):
     def __init__(self, i: int, j: int, is_white: bool):
         super().__init__(i, j, is_white)
 
     # This method annonces all the possible moves
-    def get_allowed_poses(self, board) -> List[List]:
+    def get_allowed_poses(self, board) -> list[list]:
         allowed_moves = []
         
         # Bishop-like moves
