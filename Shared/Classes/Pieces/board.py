@@ -1,6 +1,7 @@
 import sys
 import os
 import pygame
+import time
 sys.path.append(os.getcwd() + "/Pieces")
 
 import piece
@@ -163,22 +164,25 @@ class Board:
     # This methods places a piece on the board
     def place_on_board(self, piece_i : int, piece_j : int, piece):
         self.board[piece_i][piece_j] = piece
-        #print(piece)
         window.blit(dict_images[f"white_{piece}"],pygame.Rect( piece_j * square_size , piece_i * square_size , square_size , square_size))
+        pygame.display.update()
     
                 
     # This methods empties the square that has been taken by a piece
     def empty_square(self, piece_i: int, piece_j: int):
         # Check to see that should be white or black
         if (piece_i + piece_j) % 2 == 0:
+            print("ooh yes")
             self.board[piece_i][piece_j] = 0  # 0 means empty white square
-            pygame.draw.rect(window, colors[0], pygame.Rect(piece_j * square_size , piece_i* square_size , square_size , square_size))
+            pygame.draw.rect(window, colors[1], pygame.Rect(piece_j * square_size , piece_i* square_size , square_size , square_size))
         else :
+            print("oh no")
             self.board[piece_i][piece_j] = 1  # 1 means empty black square
-            pygame.draw.rect(window, colors[1], pygame.Rect(piece_j * square_size , piece_i * square_size , square_size , square_size))
-            
+            pygame.draw.rect(window, colors[0], pygame.Rect(piece_j * square_size , piece_i * square_size , square_size , square_size))
+        pygame.display.update()
+        
     # This method return the current piece that's on the specifed position, otherwise it return 1 or 0 which means empty squares
-    def get_peice_at_pos(self, piece_i: int, piece_j: int):
+    def get_peice_at_pos(self, piece_i: int, piece_j: int) -> piece.Piece:
         return self.board[piece_i][piece_j]
     
     # This method checks to see if there is any piece on the specifed square
@@ -263,24 +267,26 @@ class Board:
                 elif i == 6:
                     window.blit(dict_images["black_pawn"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
         
-    def find_piece(self,find_mouse):
+    def find_piece(self, find_mouse):
         
-        i = find_mouse[1] //64 #it requires for row part
+        i = find_mouse[1] // 64 #it requires for row part
         j = find_mouse[0] // 64 #it requires for column part    or (i,j)
+        
+        nigga_piece = self.get_peice_at_pos(i, j)
+        print(f"piece {nigga_piece} at i: {i}, j: {j}, is it white ? {nigga_piece.is_white}")
+        shit = False
 
-        display_game = piece.Piece(i,j,True)
-        
-        select_mouse = pygame.mouse.get_pos()
-        
-        new_i = select_mouse[1] // 64
-        new_j = select_mouse[0] // 64
-        
-        display_game.move_to_position(self, new_i , new_j)
-        display_game.move_to_position(self, new_i , new_j)
-        
-        #if self.is_square_targeted():
+        while not shit:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    select_mouse = pygame.mouse.get_pos()
+
+                    new_i = select_mouse[1] // 64
+                    new_j = select_mouse[0] // 64
+                    
+                    print(new_i, new_j)
+                    nigga_piece.move_to_position(self, new_i, new_j)
+                    print(f"at i: {nigga_piece.i}, j: {nigga_piece.j}")
+                    shit = True
+            # time.sleep(1)
             
-        
-        
-        
-        
