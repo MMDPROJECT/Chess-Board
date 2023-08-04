@@ -163,10 +163,8 @@ class Board:
     # This methods places a piece on the board
     def place_on_board(self, piece_i : int, piece_j : int, piece):
         self.board[piece_i][piece_j] = piece
-        # for i in range(8):
-            # for j in range(8):
-                # if self.board[i][j] == piece:
-                    # window.blit(dict_images[f"white_{piece}"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+        #print(piece)
+        window.blit(dict_images[f"white_{piece}"],pygame.Rect( piece_j * square_size , piece_i * square_size , square_size , square_size))
     
                 
     # This methods empties the square that has been taken by a piece
