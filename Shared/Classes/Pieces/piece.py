@@ -1,16 +1,21 @@
+from __future__ import annotations
+
+import board
+
 class Piece:
-    def __init__(self, i: int, j: int, is_white: bool):
+    def __init__(self, i: int, j: int, is_white: bool, image):
         self.i = i
         self.j = j
         self.is_white = is_white
+        self.image = image
 
     # This method places a piece on the board
-    def place_on_board(self, board):
+    def place_on_board(self, board: board.Board) -> None:
         # Calling board method to place the piece on itself
         board.place_on_board(self.i, self.j, self)
 
     # This method moves a piece on the chess-board
-    def move_to_position(self, board, new_i: int, new_j: int):
+    def move_to_position(self, board: board.Board, new_i: int, new_j: int) -> None:
         # Calling board method to empty the square in itself
         board.empty_square(self.i, self.j)
         # Renewing the ally position
@@ -20,7 +25,7 @@ class Piece:
         board.place_on_board(self.i, self.j, self)
 
     # This method capures an enemy piece
-    def capture(self, board, enemy_i : int, enemy_j : int, enemy_piece : 'Piece'):
+    def capture(self, board: board.Board, enemy_i: int, enemy_j: int, enemy_piece: 'Piece') -> None:
         # Empty both ally square and enemy square first
         board.empty_square(self.i, self.j)
         board.empty_square(enemy_i, enemy_j)
@@ -37,8 +42,8 @@ class Piece:
         pass
 
     # This method checks if the specified square is available for the piece to move into
-    def is_allowed_pos(self, new_i: int, new_j: int):
-        return [new_i, new_j] in self.get_allowed_poses()
+    def is_allowed_pos(self, board, new_i: int, new_j: int) -> bool:
+        return [new_i, new_j] in self.get_allowed_poses(board)
 
     def __call__(self):
         return f"peice with i:{self.i} j:{self.j} and is_white{self.is_white}"
