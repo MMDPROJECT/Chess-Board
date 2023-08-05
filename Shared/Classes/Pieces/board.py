@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import sys
 import os
 import pygame
-import time
+
 sys.path.append(os.getcwd() + "/Pieces")
 
 import piece
@@ -53,13 +55,13 @@ class Board:
         self.cnstr_board()
 
     # This method constructs the board
-    def cnstr_board(self):
+    def cnstr_board(self) -> None:
         # Constructing all the pieces and placing them...
         self.place_pieces(Board.cnstr_whites())
         self.place_pieces(Board.cnstr_blacks())
 
     # This method places all the pieces on the chess-board
-    def place_pieces(self, pieces):
+    def place_pieces(self, pieces: list[piece.Piece]) -> None:
         for piece in pieces:
             piece.place_on_board(self)
     
@@ -162,14 +164,14 @@ class Board:
         return black_pieces
 
     # This methods places a piece on the board
-    def place_on_board(self, piece_i : int, piece_j : int, piece):
+    def place_on_board(self, piece_i : int, piece_j : int, piece: piece.Piece) -> None:
         self.board[piece_i][piece_j] = piece
         # window.blit(dict_images[f"white_{piece}"],pygame.Rect( piece_j * square_size , piece_i * square_size , square_size , square_size))
         # pygame.display.update()
     
                 
     # This methods empties the square that has been taken by a piece
-    def empty_square(self, piece_i: int, piece_j: int):
+    def empty_square(self, piece_i: int, piece_j: int) -> None:
         # Check to see that should be white or black
         if (piece_i + piece_j) % 2 == 0:
             self.board[piece_i][piece_j] = 0  # 0 means empty white square
@@ -184,14 +186,14 @@ class Board:
         return self.board[piece_i][piece_j]
     
     # This method checks to see if there is any piece on the specifed square
-    def is_piece_at_pos(self, pos_i: int, pos_j: int):
+    def is_piece_at_pos(self, pos_i: int, pos_j: int) -> bool:
         try:
-            return isinstance(self.board[pos_i][pos_j], __import__("piece").Piece)
+            return isinstance(self.board[pos_i][pos_j], piece.Piece)
         except IndexError:
             return True
     
     # This method check if a square is already targeted
-    def is_square_targeted(self, is_attacker_white: bool, square_i: int, square_j: int):
+    def is_square_targeted(self, is_attacker_white: bool, square_i: int, square_j: int) -> bool:
         # A list that contains all the possible moves of the attacker team
         allowed_moves = []
         # Loop to get all the rows of the board
@@ -209,7 +211,7 @@ class Board:
             return True
         
     # This method draws the raw-empty board on the screen
-    def draw_empty_board(self):
+    def draw_empty_board(self) -> None:
 
         for i in range(8):
             for j in range(8):
@@ -222,7 +224,7 @@ class Board:
                 pygame.draw.rect(window, color, square_rect)
 
     # This method draws all the pieces on the empty board
-    def draw_pieces_on_board(self): 
+    def draw_pieces_on_board(self) -> None: 
         for i in range(8):
             for j in range(8):
                 current_piece = self.board[i][j]
@@ -231,14 +233,14 @@ class Board:
                 if isinstance(current_piece, piece.Piece):
                     window.blit(current_piece.image, pygame.Rect(j * square_size, i * square_size, square_size, square_size))
 
-    def draw_allowed_moves(self, allowed_moves: list[list]):
+    def draw_allowed_moves(self, allowed_moves: list[list]) -> None:
         for l in allowed_moves:
             i, j = l[0], l[1]
             square_rect = pygame.Rect(j * square_size , i * square_size , square_size , square_size)
             pygame.draw.rect(window, colors[2], square_rect)
             pygame.display.update()
         
-    def find_piece(self, find_mouse):
+    def find_piece(self, find_mouse) -> None:
         
         i = find_mouse[1] // 64 #it requires for row part
         j = find_mouse[0] // 64 #it requires for column part    or (i,j)

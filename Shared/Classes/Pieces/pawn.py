@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import sys
 import os
 # Adding the path of parent directory (Classes) to the paths
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
+import board
 
 class Pawn(piece.Piece):
     def __init__(self, i: int, j: int, is_white: bool, image):
@@ -11,12 +14,12 @@ class Pawn(piece.Piece):
         self.has_moved = False
 
     # This method moves a pawn to a new position
-    def move_to_position(self, board, new_i: int, new_j: int):
+    def move_to_position(self, board: board.Board, new_i: int, new_j: int) -> None:
         super().move_to_position(board, new_i, new_j)
         self.has_moved = True
     
     # This method annonces all the possible moves
-    def get_allowed_poses(self, board) -> list[list]:        
+    def get_allowed_poses(self, board: board.Board) -> list[list]:        
         allowed_moves = []
         # For Whites (Top oriented team)
         if self.is_white:

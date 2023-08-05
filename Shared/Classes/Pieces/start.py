@@ -1,13 +1,13 @@
+from __future__ import annotations
+
 import pygame
 import os
+
 import board
 
-
 pygame.display.set_caption("Board") #title name
-
-
 display_board = board.Board()
-clock = pygame.time.Clock()
+clock = pygame.time.Clock() # Clock obj to control the frame rate
 
 def main():
     run = True

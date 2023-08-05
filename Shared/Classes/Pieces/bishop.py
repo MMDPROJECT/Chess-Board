@@ -1,16 +1,19 @@
+from __future__ import annotations
+
 import sys
 import os
 # Adding the path of parent directory (Classes) to the paths
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
+import board
 
 class Bishop(piece.Piece):
     def __init__(self, i: int, j: int, is_white: bool, image):
         super().__init__(i, j, is_white, image)
 
     # This method annonces all the possible moves
-    def get_allowed_poses(self, board) -> list[list]:
+    def get_allowed_poses(self, board: board.Board) -> list[list]:
         allowed_moves = []
         
         # First option is to move to right top diagonal
