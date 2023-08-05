@@ -7,6 +7,7 @@ pygame.display.set_caption("Board") #title name
 
 
 display_board = board.Board()
+clock = pygame.time.Clock()
 
 def main():
     run = True
@@ -21,6 +22,7 @@ def main():
         display_board.draw_empty_board()
         display_board.draw_pieces_on_board()
         pygame.display.update()
+        clock.tick(25)
     
         
     
