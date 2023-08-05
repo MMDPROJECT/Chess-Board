@@ -50,6 +50,60 @@ class Bishop(piece.Piece):
 
         return allowed_moves
     
+    # This method annonces all the possible captures
+    def get_allowed_captures(self, board: board.Board) -> list[list]:
+        allowed_captures = []
+        
+        # First option is to move to right top diagonal
+        i = self.i - 1
+        j = self.j + 1
+        while 0 <= i <= 7 and 0 <= j <= 7:
+            if board.is_enemy_piece_at_pos(i, j, self.is_white):
+                allowed_captures.append([i, j])
+                break
+            if board.is_team_piece_at_pos(i, j, self.is_white):
+                break
+            i -= 1
+            j += 1
+        
+        # Second option is to move to right bottom diagonal
+        i = self.i + 1
+        j = self.j + 1
+        while 0 <= i <= 7 and 0 <= j <= 7:
+            if board.is_enemy_piece_at_pos(i, j, self.is_white):
+                allowed_captures.append([i, j])
+                break
+            if board.is_team_piece_at_pos(i, j, self.is_white):
+                break
+            i += 1
+            j += 1
+
+        # Third option is to move to left bottom diagonal
+        i = self.i + 1
+        j = self.j - 1
+        while 0 <= i <= 7 and 0 <= j <= 7:
+            if board.is_enemy_piece_at_pos(i, j, self.is_white):
+                allowed_captures.append([i, j])
+                break
+            if board.is_team_piece_at_pos(i, j, self.is_white):
+                break
+            i += 1
+            j -= 1
+        
+        # Fourth option is to move to left top diagonal
+        i = self.i - 1
+        j = self.j - 1
+        while 0 <= i <= 7 and 0 <= j <= 7:
+            if board.is_enemy_piece_at_pos(i, j, self.is_white):
+                allowed_captures.append([i, j])
+                break
+            if board.is_team_piece_at_pos(i, j, self.is_white):
+                break
+            i -= 1
+            j -= 1
+
+        return allowed_captures
+    
     def __str__(self):
         return "bishop"
 

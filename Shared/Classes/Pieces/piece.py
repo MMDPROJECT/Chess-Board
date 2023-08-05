@@ -38,12 +38,19 @@ class Piece:
         del enemy_piece 
         
     # This method annonces all the possible moves
-    def get_allowed_poses(self) -> list[list]:
+    def get_allowed_poses(self, board: board.Board) -> list[list]:
+        pass
+
+    # This method annonces all the possible captures
+    def get_allowed_captures(self, board: board.Board) -> list[list]:
         pass
 
     # This method checks if the specified square is available for the piece to move into
-    def is_allowed_pos(self, board, new_i: int, new_j: int) -> bool:
+    def is_allowed_pos(self, board: board.Board, new_i: int, new_j: int) -> bool:
         return [new_i, new_j] in self.get_allowed_poses(board)
+    
+    def is_allowed_capture(self, board: board.Board, new_i: int, new_j: int):
+        return [new_i, new_j] in self.get_allowed_captures(board)
 
     def __call__(self):
         return f"peice with i:{self.i} j:{self.j} and is_white{self.is_white}"
