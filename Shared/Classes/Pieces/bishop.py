@@ -6,21 +6,14 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 
 import piece
-<<<<<<< HEAD
-=======
 import board
->>>>>>> fix/UI
 
 class Bishop(piece.Piece):
     def __init__(self, i: int, j: int, is_white: bool, image):
         super().__init__(i, j, is_white, image)
 
     # This method annonces all the possible moves
-<<<<<<< HEAD
-    def get_allowed_poses(self, board) -> list[list]:
-=======
     def get_allowed_poses(self, board: board.Board) -> list[list]:
->>>>>>> fix/UI
         allowed_moves = []
         
         # First option is to move to right top diagonal
