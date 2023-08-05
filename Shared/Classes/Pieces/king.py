@@ -6,8 +6,8 @@ sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 import piece
 
 class King(piece.Piece):
-    def __init__(self, i: int, j: int, is_white: bool):
-        super().__init__(i, j, is_white)
+    def __init__(self, i: int, j: int, is_white: bool, image):
+        super().__init__(i, j, is_white, image)
         self.is_checked = False
         self.is_check_mated = False
 

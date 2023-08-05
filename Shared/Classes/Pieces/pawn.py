@@ -6,8 +6,8 @@ sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir)))
 import piece
 
 class Pawn(piece.Piece):
-    def __init__(self, i: int, j: int, is_white: bool):
-        super().__init__(i, j, is_white)
+    def __init__(self, i: int, j: int, is_white: bool, image):
+        super().__init__(i, j, is_white, image)
         self.has_moved = False
 
     # This method moves a pawn to a new position

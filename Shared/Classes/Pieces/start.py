@@ -18,12 +18,8 @@ def main():
                 find_mouse = pygame.mouse.get_pos()
                 display_board.find_piece(find_mouse)
 
-        display_board.draw_color()
-        display_board.set_pieces()
-
-        
-
-    
+        display_board.draw_empty_board()
+        display_board.draw_pieces_on_board()
         pygame.display.update()
     
         

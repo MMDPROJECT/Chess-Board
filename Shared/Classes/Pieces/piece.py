@@ -1,8 +1,9 @@
 class Piece:
-    def __init__(self, i: int, j: int, is_white: bool):
+    def __init__(self, i: int, j: int, is_white: bool, image):
         self.i = i
         self.j = j
         self.is_white = is_white
+        self.image = image
 
     # This method places a piece on the board
     def place_on_board(self, board):

@@ -68,26 +68,26 @@ class Board:
     def cnstr_whites() -> list:
         white_pieces = []
         # Pawns
-        pawn_white_0 = pawn.Pawn(1, 0, True)
-        pawn_white_1 = pawn.Pawn(1, 1, True)
-        pawn_white_2 = pawn.Pawn(1, 2, True)
-        pawn_white_3 = pawn.Pawn(1, 3, True)
-        pawn_white_4 = pawn.Pawn(1, 4, True)
-        pawn_white_5 = pawn.Pawn(1, 5, True)
-        pawn_white_6 = pawn.Pawn(1, 6, True)
-        pawn_white_7 = pawn.Pawn(1, 7, True)
+        pawn_white_0 = pawn.Pawn(1, 0, True, dict_images["white_pawn"])
+        pawn_white_1 = pawn.Pawn(1, 1, True, dict_images["white_pawn"])
+        pawn_white_2 = pawn.Pawn(1, 2, True, dict_images["white_pawn"])
+        pawn_white_3 = pawn.Pawn(1, 3, True, dict_images["white_pawn"])
+        pawn_white_4 = pawn.Pawn(1, 4, True, dict_images["white_pawn"])
+        pawn_white_5 = pawn.Pawn(1, 5, True, dict_images["white_pawn"])
+        pawn_white_6 = pawn.Pawn(1, 6, True, dict_images["white_pawn"])
+        pawn_white_7 = pawn.Pawn(1, 7, True, dict_images["white_pawn"])
         # Rooks
-        rook_white_0 = rook.Rook(0, 0, True)
-        rook_white_1 = rook.Rook(0, 7, True)
+        rook_white_0 = rook.Rook(0, 0, True, dict_images["white_rook"])
+        rook_white_1 = rook.Rook(0, 7, True, dict_images["white_rook"])
         # Knights
-        knight_white_0 = knight.Knight(0, 1, True)
-        knight_white_1 = knight.Knight(0, 6, True)
+        knight_white_0 = knight.Knight(0, 1, True, dict_images["white_knight"])
+        knight_white_1 = knight.Knight(0, 6, True, dict_images["white_knight"])
         # Bishops
-        bishop_white_0 = bishop.Bishop(0, 2, True)
-        bishop_white_1 = bishop.Bishop(0, 5, True)
+        bishop_white_0 = bishop.Bishop(0, 2, True, dict_images["white_bishop"])
+        bishop_white_1 = bishop.Bishop(0, 5, True, dict_images["white_bishop"])
         # Royal familiy
-        queen_white = queen.Queen(0, 3, True)
-        king_white = king.King(0, 4, True)
+        queen_white = queen.Queen(0, 3, True, dict_images["white_queen"])
+        king_white = king.King(0, 4, True, dict_images["white_king"])
 
         white_pieces.append(pawn_white_0)
         white_pieces.append(pawn_white_1)
@@ -117,26 +117,26 @@ class Board:
     def cnstr_blacks() -> list:
         black_pieces = []
         # Pawns
-        pawn_black_0 = pawn.Pawn(6, 0, False)
-        pawn_black_1 = pawn.Pawn(6, 1, False)
-        pawn_black_2 = pawn.Pawn(6, 2, False)
-        pawn_black_3 = pawn.Pawn(6, 3, False)
-        pawn_black_4 = pawn.Pawn(6, 4, False)
-        pawn_black_5 = pawn.Pawn(6, 5, False)
-        pawn_black_6 = pawn.Pawn(6, 6, False)
-        pawn_black_7 = pawn.Pawn(6, 7, False)
+        pawn_black_0 = pawn.Pawn(6, 0, False, dict_images["black_pawn"])
+        pawn_black_1 = pawn.Pawn(6, 1, False, dict_images["black_pawn"])
+        pawn_black_2 = pawn.Pawn(6, 2, False, dict_images["black_pawn"])
+        pawn_black_3 = pawn.Pawn(6, 3, False, dict_images["black_pawn"])
+        pawn_black_4 = pawn.Pawn(6, 4, False, dict_images["black_pawn"])
+        pawn_black_5 = pawn.Pawn(6, 5, False, dict_images["black_pawn"])
+        pawn_black_6 = pawn.Pawn(6, 6, False, dict_images["black_pawn"])
+        pawn_black_7 = pawn.Pawn(6, 7, False, dict_images["black_pawn"])
         # Rooks
-        rook_black_0 = rook.Rook(7, 0, False)
-        rook_black_1 = rook.Rook(7, 7, False)
+        rook_black_0 = rook.Rook(7, 0, False, dict_images["black_rook"])
+        rook_black_1 = rook.Rook(7, 7, False, dict_images["black_rook"])
         # Knights
-        knight_black_0 = knight.Knight(7, 1, False)
-        knight_black_1 = knight.Knight(7, 6, False)
+        knight_black_0 = knight.Knight(7, 1, False, dict_images["black_knight"])
+        knight_black_1 = knight.Knight(7, 6, False, dict_images["black_knight"])
         # Bishops
-        bishop_black_0 = bishop.Bishop(7, 2, False)
-        bishop_black_1 = bishop.Bishop(7, 5, False)
+        bishop_black_0 = bishop.Bishop(7, 2, False, dict_images["black_bishop"])
+        bishop_black_1 = bishop.Bishop(7, 5, False, dict_images["black_bishop"])
         # Royal familiy
-        queen_black = queen.Queen(7, 3, False)
-        king_black = king.King(7, 4, False)
+        queen_black = queen.Queen(7, 3, False, dict_images["black_queen"])
+        king_black = king.King(7, 4, False, dict_images["black_king"])
 
         black_pieces.append(pawn_black_0)
         black_pieces.append(pawn_black_1)
@@ -164,22 +164,20 @@ class Board:
     # This methods places a piece on the board
     def place_on_board(self, piece_i : int, piece_j : int, piece):
         self.board[piece_i][piece_j] = piece
-        window.blit(dict_images[f"white_{piece}"],pygame.Rect( piece_j * square_size , piece_i * square_size , square_size , square_size))
-        pygame.display.update()
+        # window.blit(dict_images[f"white_{piece}"],pygame.Rect( piece_j * square_size , piece_i * square_size , square_size , square_size))
+        # pygame.display.update()
     
                 
     # This methods empties the square that has been taken by a piece
     def empty_square(self, piece_i: int, piece_j: int):
         # Check to see that should be white or black
         if (piece_i + piece_j) % 2 == 0:
-            print("ooh yes")
             self.board[piece_i][piece_j] = 0  # 0 means empty white square
-            pygame.draw.rect(window, colors[1], pygame.Rect(piece_j * square_size , piece_i* square_size , square_size , square_size))
+            # pygame.draw.rect(window, colors[1], pygame.Rect(piece_j * square_size , piece_i* square_size , square_size , square_size))
         else :
-            print("oh no")
             self.board[piece_i][piece_j] = 1  # 1 means empty black square
-            pygame.draw.rect(window, colors[0], pygame.Rect(piece_j * square_size , piece_i * square_size , square_size , square_size))
-        pygame.display.update()
+            # pygame.draw.rect(window, colors[0], pygame.Rect(piece_j * square_size , piece_i * square_size , square_size , square_size))
+        # pygame.display.update()
         
     # This method return the current piece that's on the specifed position, otherwise it return 1 or 0 which means empty squares
     def get_peice_at_pos(self, piece_i: int, piece_j: int) -> piece.Piece:
@@ -211,61 +209,101 @@ class Board:
             return True
         
     # This method color each square
-    def draw_color(self):
+    def draw_empty_board(self):
 
         for i in range(8):
             for j in range(8):
-                if (i + j)% 2 == 0:
+                if (i + j) % 2 == 0:
                    color = colors[1]
                 else:
                    color = colors[0]
                 
                 square_rect = pygame.Rect(j * square_size , i * square_size , square_size , square_size)
                 pygame.draw.rect(window, color, square_rect)
-        
-    # This method initiall the peices     
-    def set_pieces(self):
+
+
+    def draw_pieces_on_board(self): 
         for i in range(8):
             for j in range(8):
+                current_piece = self.board[i][j]
                 
-                # white
-                if self.board[i][j] == self.board[0][0] or self.board[i][j] == self.board[0][7]:
-                    window.blit(dict_images["white_rook"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+                # Checking if it's piece
+                if isinstance(current_piece, piece.Piece):
+                    window.blit(current_piece.image, pygame.Rect(j * square_size, i * square_size, square_size, square_size))
+
+
+
+                    # # Checking if it's white
+                    # if current_piece.is_white:
+
+                    #     # Checking if it's pawn
+                    #     if isinstance(current_piece, pawn.Pawn):
+
+                    #     # Checking if it's rook
+                    #     elif isinstance(current_piece, rook.Rook):
+
+                    #     # Checking if it's knight
+                    #     elif isinstance(current_piece, knight.Knight):
+
+                    #     # Checking if it's bishop
+                    #     elif isinstance(current_piece, bishop.Bishop):
+
+                    #     # Checking if it's king
+                    #     elif isinstance(current_piece, king.King):
+
+                    #     # Checking if it's queen
+                    #     elif isinstance(current_piece, queen.Queen):
+                        
+                        
+
+
+                    # # Otherwise it's black
+                    # else:
+
+        
+    # This method initiall the peices     
+    # def set_pieces(self):
+    #     for i in range(8):
+    #         for j in range(8):
+                
+    #             # white
+    #             if self.board[i][j] == self.board[0][0] or self.board[i][j] == self.board[0][7]:
+    #                 window.blit(dict_images["white_rook"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                     
-                elif self.board[i][j] == self.board[0][1] or self.board[i][j] == self.board[0][6]:
-                     window.blit(dict_images["white_knight"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif self.board[i][j] == self.board[0][1] or self.board[i][j] == self.board[0][6]:
+    #                  window.blit(dict_images["white_knight"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                      
-                elif self.board[i][j] == self.board[0][2] or self.board[i][j] == self.board[0][5]:
-                    window.blit(dict_images["white_bishop"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif self.board[i][j] == self.board[0][2] or self.board[i][j] == self.board[0][5]:
+    #                 window.blit(dict_images["white_bishop"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                     
-                elif self.board[i][j] == self.board[0][3]:
-                     window.blit(dict_images["white_queen"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif self.board[i][j] == self.board[0][3]:
+    #                  window.blit(dict_images["white_queen"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                      
-                elif self.board[i][j] == self.board[0][4]:
-                    window.blit(dict_images["white_king"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif self.board[i][j] == self.board[0][4]:
+    #                 window.blit(dict_images["white_king"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                     
-                elif i == 1:
-                     window.blit(dict_images["white_pawn"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif i == 1:
+    #                  window.blit(dict_images["white_pawn"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                 
                 
-                # black    
-                elif self.board[i][j] == self.board[7][0] or self.board[i][j] == self.board[7][7]:
-                     window.blit(dict_images["black_rook"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             # black    
+    #             elif self.board[i][j] == self.board[7][0] or self.board[i][j] == self.board[7][7]:
+    #                  window.blit(dict_images["black_rook"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                      
-                elif self.board[i][j] == self.board[7][1] or self.board[i][j] == self.board[7][6]:
-                     window.blit(dict_images["black_knight"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif self.board[i][j] == self.board[7][1] or self.board[i][j] == self.board[7][6]:
+    #                  window.blit(dict_images["black_knight"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                      
-                elif self.board[i][j] == self.board[7][2] or self.board[i][j] == self.board[7][5]:
-                    window.blit(dict_images["black_bishop"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif self.board[i][j] == self.board[7][2] or self.board[i][j] == self.board[7][5]:
+    #                 window.blit(dict_images["black_bishop"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                     
-                elif self.board[i][j] == self.board[7][3]:
-                     window.blit(dict_images["black_queen"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif self.board[i][j] == self.board[7][3]:
+    #                  window.blit(dict_images["black_queen"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                      
-                elif self.board[i][j] == self.board[7][4]:
-                    window.blit(dict_images["black_king"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif self.board[i][j] == self.board[7][4]:
+    #                 window.blit(dict_images["black_king"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
                     
-                elif i == 6:
-                    window.blit(dict_images["black_pawn"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    #             elif i == 6:
+    #                 window.blit(dict_images["black_pawn"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
         
     def find_piece(self, find_mouse):
         
