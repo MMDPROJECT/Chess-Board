@@ -164,7 +164,7 @@ class Board:
         return black_pieces
 
     # This methods places a piece on the board
-    def place_on_board(self, piece_i : int, piece_j : int, piece: piece.Piece) -> None:
+    def place_on_board(self, piece_i: int, piece_j: int, piece: piece.Piece) -> None:
         self.board[piece_i][piece_j] = piece
         # window.blit(dict_images[f"white_{piece}"],pygame.Rect( piece_j * square_size , piece_i * square_size , square_size , square_size))
         # pygame.display.update()
@@ -220,7 +220,7 @@ class Board:
                 else:
                    color = colors[0]
                 
-                square_rect = pygame.Rect(j * square_size , i * square_size , square_size , square_size)
+                square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
                 pygame.draw.rect(window, color, square_rect)
 
     # This method draws all the pieces on the empty board
@@ -236,8 +236,8 @@ class Board:
     def draw_allowed_moves(self, allowed_moves: list[list]) -> None:
         for l in allowed_moves:
             i, j = l[0], l[1]
-            square_rect = pygame.Rect(j * square_size , i * square_size , square_size , square_size)
-            pygame.draw.rect(window, colors[2], square_rect)
+            square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
+            pygame.draw.rect(window, colors[2], square_rect, 5)
             pygame.display.update()
         
     def find_piece(self, find_mouse) -> None:
@@ -247,7 +247,6 @@ class Board:
         
         selected_piece = self.get_peice_at_pos(i, j)
         if isinstance(selected_piece, piece.Piece):
-            # print(f"piece {nigga_piece} at i: {i}, j: {j}, is it white ? {nigga_piece.is_white}")
             self.draw_allowed_moves(selected_piece.get_allowed_poses(self))
             has_selected_any_square = False
 
@@ -261,6 +260,4 @@ class Board:
                         
                         if selected_piece.is_allowed_pos(self, new_i, new_j):
                             selected_piece.move_to_position(self, new_i, new_j)
-                            has_selected_any_square = True
-                # time.sleep(1)
-            
+                            has_selected_any_square = True            
