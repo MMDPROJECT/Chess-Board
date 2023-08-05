@@ -13,7 +13,7 @@ import queen
 import king
 
 square_size = 64
-colors = [(192, 192, 164), (96, 64, 32), (3, 182, 252)] 
+colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3)] 
 width, height = 512,512
 window = pygame.display.set_mode((width, height))
 
@@ -244,19 +244,21 @@ class Board:
         j = find_mouse[0] // 64 #it requires for column part    or (i,j)
         
         selected_piece = self.get_peice_at_pos(i, j)
-        # print(f"piece {nigga_piece} at i: {i}, j: {j}, is it white ? {nigga_piece.is_white}")
-        self.draw_allowed_moves(selected_piece.get_allowed_poses(self))
-        has_selected_any_square = False
+        if isinstance(selected_piece, piece.Piece):
+            # print(f"piece {nigga_piece} at i: {i}, j: {j}, is it white ? {nigga_piece.is_white}")
+            self.draw_allowed_moves(selected_piece.get_allowed_poses(self))
+            has_selected_any_square = False
 
-        while not has_selected_any_square:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    select_mouse = pygame.mouse.get_pos()
+            while not has_selected_any_square:
+                for event in pygame.event.get():
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        select_mouse = pygame.mouse.get_pos()
 
-                    new_i = select_mouse[1] // 64
-                    new_j = select_mouse[0] // 64
-                    
-                    selected_piece.move_to_position(self, new_i, new_j)
-                    has_selected_any_square = True
-            # time.sleep(1)
+                        new_i = select_mouse[1] // 64
+                        new_j = select_mouse[0] // 64
+                        
+                        if selected_piece.is_allowed_pos(self, new_i, new_j):
+                            selected_piece.move_to_position(self, new_i, new_j)
+                            has_selected_any_square = True
+                # time.sleep(1)
             

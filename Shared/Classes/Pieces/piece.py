@@ -38,8 +38,8 @@ class Piece:
         pass
 
     # This method checks if the specified square is available for the piece to move into
-    def is_allowed_pos(self, new_i: int, new_j: int):
-        return [new_i, new_j] in self.get_allowed_poses()
+    def is_allowed_pos(self, board, new_i: int, new_j: int):
+        return [new_i, new_j] in self.get_allowed_poses(board)
 
     def __call__(self):
         return f"peice with i:{self.i} j:{self.j} and is_white{self.is_white}"
