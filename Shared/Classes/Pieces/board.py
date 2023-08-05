@@ -13,7 +13,7 @@ import queen
 import king
 
 square_size = 64
-colors = [(192, 192, 164),(96, 64, 32)] 
+colors = [(192, 192, 164), (96, 64, 32), (3, 182, 252)] 
 width, height = 512,512
 window = pygame.display.set_mode((width, height))
 
@@ -208,7 +208,7 @@ class Board:
         if [square_i, square_j] in allowed_moves:
             return True
         
-    # This method color each square
+    # This method draws the raw-empty board on the screen
     def draw_empty_board(self):
 
         for i in range(8):
@@ -221,7 +221,7 @@ class Board:
                 square_rect = pygame.Rect(j * square_size , i * square_size , square_size , square_size)
                 pygame.draw.rect(window, color, square_rect)
 
-
+    # This method draws all the pieces on the empty board
     def draw_pieces_on_board(self): 
         for i in range(8):
             for j in range(8):
@@ -231,90 +231,24 @@ class Board:
                 if isinstance(current_piece, piece.Piece):
                     window.blit(current_piece.image, pygame.Rect(j * square_size, i * square_size, square_size, square_size))
 
-
-
-                    # # Checking if it's white
-                    # if current_piece.is_white:
-
-                    #     # Checking if it's pawn
-                    #     if isinstance(current_piece, pawn.Pawn):
-
-                    #     # Checking if it's rook
-                    #     elif isinstance(current_piece, rook.Rook):
-
-                    #     # Checking if it's knight
-                    #     elif isinstance(current_piece, knight.Knight):
-
-                    #     # Checking if it's bishop
-                    #     elif isinstance(current_piece, bishop.Bishop):
-
-                    #     # Checking if it's king
-                    #     elif isinstance(current_piece, king.King):
-
-                    #     # Checking if it's queen
-                    #     elif isinstance(current_piece, queen.Queen):
-                        
-                        
-
-
-                    # # Otherwise it's black
-                    # else:
-
-        
-    # This method initiall the peices     
-    # def set_pieces(self):
-    #     for i in range(8):
-    #         for j in range(8):
-                
-    #             # white
-    #             if self.board[i][j] == self.board[0][0] or self.board[i][j] == self.board[0][7]:
-    #                 window.blit(dict_images["white_rook"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                    
-    #             elif self.board[i][j] == self.board[0][1] or self.board[i][j] == self.board[0][6]:
-    #                  window.blit(dict_images["white_knight"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                     
-    #             elif self.board[i][j] == self.board[0][2] or self.board[i][j] == self.board[0][5]:
-    #                 window.blit(dict_images["white_bishop"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                    
-    #             elif self.board[i][j] == self.board[0][3]:
-    #                  window.blit(dict_images["white_queen"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                     
-    #             elif self.board[i][j] == self.board[0][4]:
-    #                 window.blit(dict_images["white_king"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                    
-    #             elif i == 1:
-    #                  window.blit(dict_images["white_pawn"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                
-                
-    #             # black    
-    #             elif self.board[i][j] == self.board[7][0] or self.board[i][j] == self.board[7][7]:
-    #                  window.blit(dict_images["black_rook"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                     
-    #             elif self.board[i][j] == self.board[7][1] or self.board[i][j] == self.board[7][6]:
-    #                  window.blit(dict_images["black_knight"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                     
-    #             elif self.board[i][j] == self.board[7][2] or self.board[i][j] == self.board[7][5]:
-    #                 window.blit(dict_images["black_bishop"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                    
-    #             elif self.board[i][j] == self.board[7][3]:
-    #                  window.blit(dict_images["black_queen"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                     
-    #             elif self.board[i][j] == self.board[7][4]:
-    #                 window.blit(dict_images["black_king"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
-                    
-    #             elif i == 6:
-    #                 window.blit(dict_images["black_pawn"],pygame.Rect(j * square_size , i * square_size , square_size , square_size))
+    def draw_allowed_moves(self, allowed_moves: list[list]):
+        for l in allowed_moves:
+            i, j = l[0], l[1]
+            square_rect = pygame.Rect(j * square_size , i * square_size , square_size , square_size)
+            pygame.draw.rect(window, colors[2], square_rect)
+            pygame.display.update()
         
     def find_piece(self, find_mouse):
         
         i = find_mouse[1] // 64 #it requires for row part
         j = find_mouse[0] // 64 #it requires for column part    or (i,j)
         
-        nigga_piece = self.get_peice_at_pos(i, j)
-        print(f"piece {nigga_piece} at i: {i}, j: {j}, is it white ? {nigga_piece.is_white}")
-        shit = False
+        selected_piece = self.get_peice_at_pos(i, j)
+        # print(f"piece {nigga_piece} at i: {i}, j: {j}, is it white ? {nigga_piece.is_white}")
+        self.draw_allowed_moves(selected_piece.get_allowed_poses(self))
+        has_selected_any_square = False
 
-        while not shit:
+        while not has_selected_any_square:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     select_mouse = pygame.mouse.get_pos()
@@ -322,9 +256,7 @@ class Board:
                     new_i = select_mouse[1] // 64
                     new_j = select_mouse[0] // 64
                     
-                    print(new_i, new_j)
-                    nigga_piece.move_to_position(self, new_i, new_j)
-                    print(f"at i: {nigga_piece.i}, j: {nigga_piece.j}")
-                    shit = True
+                    selected_piece.move_to_position(self, new_i, new_j)
+                    has_selected_any_square = True
             # time.sleep(1)
             
