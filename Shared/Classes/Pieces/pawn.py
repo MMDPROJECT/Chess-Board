@@ -31,13 +31,13 @@ class Pawn(piece.Piece):
             if not board.is_piece_at_pos(self.i + 1, self.j):
                 allowed_moves.append([self.i + 1, self.j])
 
-            # Third possiblity (if there is a piece on left bottom diagonal)
-            if board.is_piece_at_pos(self.i + 1, self.j - 1):
-                allowed_moves.append([self.i + 1, self.j - 1])
+            # # Third possiblity (if there is a piece on left bottom diagonal)
+            # if board.is_piece_at_pos(self.i + 1, self.j - 1):
+            #     allowed_moves.append([self.i + 1, self.j - 1])
 
-            # Fourth possiblity (if there is a piece on right bottom diagonal)
-            if board.is_piece_at_pos(self.i + 1, self.j + 1):
-                allowed_moves.append([self.i + 1, self.j + 1])                
+            # # Fourth possiblity (if there is a piece on right bottom diagonal)
+            # if board.is_piece_at_pos(self.i + 1, self.j + 1):
+            #     allowed_moves.append([self.i + 1, self.j + 1])                
  
         # For Blacks (Bottom oriented team)    
         else:
@@ -50,14 +50,38 @@ class Pawn(piece.Piece):
                 allowed_moves.append([self.i - 1, self.j])
 
             # Third possiblity (if there is a piece on left top diagonal)
-            if board.is_piece_at_pos(self.i - 1, self.j - 1):
-                allowed_moves.append([self.i - 1, self.j - 1])
+            # if board.is_piece_at_pos(self.i - 1, self.j - 1):
+            #     allowed_moves.append([self.i - 1, self.j - 1])
 
-            # Fourth possiblity (if there is a piece on right top diagonal)
-            if board.is_piece_at_pos(self.i - 1, self.j + 1):
-                allowed_moves.append([self.i - 1, self.j + 1])  
+            # # Fourth possiblity (if there is a piece on right top diagonal)
+            # if board.is_piece_at_pos(self.i - 1, self.j + 1):
+            #     allowed_moves.append([self.i - 1, self.j + 1])  
         
         return allowed_moves
+    
+    def get_allowed_captures(self, board: board.Board) -> list[list]:
+        allowed_captures = []
+        # For Whites (Top oriented team)
+        if self.is_white:
+            # First possiblity (if there is a piece on left bottom diagonal)
+            if board.is_enemy_piece_at_pos(self.i + 1, self.j - 1, self.is_white):
+                allowed_captures.append([self.i + 1, self.j - 1])
+
+            # Second possiblity (if there is a piece on right bottom diagonal)
+            if board.is_enemy_piece_at_pos(self.i + 1, self.j + 1, self.is_white):
+                allowed_captures.append([self.i + 1, self.j + 1])                
+ 
+        # For Blacks (Bottom oriented team)    
+        else:
+            # First possiblity (if there is a piece on left top diagonal)
+            if board.is_enemy_piece_at_pos(self.i - 1, self.j - 1, self.is_white):
+                allowed_captures.append([self.i - 1, self.j - 1])
+
+            # Second possiblity (if there is a piece on right top diagonal)
+            if board.is_enemy_piece_at_pos(self.i - 1, self.j + 1, self.is_white):
+                allowed_captures.append([self.i - 1, self.j + 1])  
+        
+        return allowed_captures
 
     def __str__(self):
         return "pawn"
