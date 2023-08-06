@@ -15,7 +15,7 @@ import queen
 import king
 
 square_size = 64
-colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3)] 
+colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3), (255, 0, 0)] 
 width, height = 512,512
 window = pygame.display.set_mode((width, height))
 
@@ -187,10 +187,22 @@ class Board:
     
     # This method checks to see if there is any piece on the specifed square
     def is_piece_at_pos(self, pos_i: int, pos_j: int) -> bool:
-        try:
-            return isinstance(self.board[pos_i][pos_j], piece.Piece)
-        except IndexError:
+        return isinstance(self.board[pos_i][pos_j], piece.Piece)
+
+    # This method checks to see if there is an enemy piece at the specified square 
+    def is_enemy_piece_at_pos(self, pos_i: int, pos_j: int, is_white: bool) -> bool:
+        obj_at_pos = self.board[pos_i][pos_j]
+        if isinstance(obj_at_pos, piece.Piece) and obj_at_pos.is_white != is_white:
             return True
+        return False
+    
+    # This method checks to see if there is an team piece at the specifed square
+    def is_team_piece_at_pos(self, pos_i: int, pos_j: int, is_white: bool) -> bool:
+        obj_at_pos = self.board[pos_i][pos_j]
+        if isinstance(obj_at_pos, piece.Piece) and obj_at_pos.is_white == is_white:
+            return True
+        return False
+
     
     # This method check if a square is already targeted
     def is_square_targeted(self, is_attacker_white: bool, square_i: int, square_j: int) -> bool:
@@ -239,6 +251,13 @@ class Board:
             square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
             pygame.draw.rect(window, colors[2], square_rect, 5)
             pygame.display.update()
+
+    def draw_allowed_captures(self, allowed_captures: list[list]) -> None:
+        for l in allowed_captures:
+            i, j = l[0], l[1]
+            square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
+            pygame.draw.rect(window, colors[3], square_rect, 5)
+            pygame.display.update()
         
     def find_piece(self, find_mouse) -> None:
         
@@ -247,9 +266,11 @@ class Board:
         
         selected_piece = self.get_peice_at_pos(i, j)
         if isinstance(selected_piece, piece.Piece):
+            print(f"selected: {selected_piece}, i: {i}, j: {j}")
             self.draw_allowed_moves(selected_piece.get_allowed_poses(self))
+            print(f"allowed captures: {selected_piece.get_allowed_captures(self)}")
+            self.draw_allowed_captures(selected_piece.get_allowed_captures(self))
             has_selected_any_square = False
-
             while not has_selected_any_square:
                 for event in pygame.event.get():
                     if event.type == pygame.MOUSEBUTTONDOWN:
@@ -260,4 +281,7 @@ class Board:
                         
                         if selected_piece.is_allowed_pos(self, new_i, new_j):
                             selected_piece.move_to_position(self, new_i, new_j)
-                            has_selected_any_square = True            
+                            has_selected_any_square = True      
+                        if selected_piece.is_allowed_capture(self, new_i, new_j):
+                            selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
+                            has_selected_any_square = True
