@@ -39,6 +39,9 @@ dict_images = {
 
 
 class Board:
+    
+    is_black = False
+
     def __init__(self):
         self.board = [
             # 0 means empty white square
@@ -258,6 +261,13 @@ class Board:
             square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
             pygame.draw.rect(window, colors[3], square_rect, 5)
             pygame.display.update()
+            
+    def change_color(self):
+        if self.is_black == True:
+            self.is_black = False
+        else:
+            self.is_black = True
+        print(self.is_black)
         
     def find_piece(self, find_mouse) -> None:
         
@@ -266,32 +276,35 @@ class Board:
         
         # Getting the selected square
         selected_piece = self.get_peice_at_pos(i, j)
+        is_white = selected_piece.called_color()
+       
+        if self.is_black == is_white :
+            # Check if it's a piece
+            if isinstance(selected_piece, piece.Piece):
+                # Calculating all the possible moves and captures
+                allowed_poses = selected_piece.get_allowed_poses(self)
+                allowed_captures = selected_piece.get_allowed_captures(self)
 
-        # Check if it's a piece
-        if isinstance(selected_piece, piece.Piece):
-            # Calculating all the possible moves and captures
-            allowed_poses = selected_piece.get_allowed_poses(self)
-            allowed_captures = selected_piece.get_allowed_captures(self)
+                # Checking if it's not empty
+                if allowed_captures != [] or allowed_poses != []:            
+                    # Drawing all the possible moves for the piece
+                    self.draw_allowed_moves(allowed_poses)
+                    # Drawing all the possible captures for the piece
+                    self.draw_allowed_captures(allowed_captures)
+                    has_selected_any_square = False
 
-            # Checking if it's not empty
-            if allowed_captures != [] or allowed_poses != []:            
-                # Drawing all the possible moves for the piece
-                self.draw_allowed_moves(allowed_poses)
-                # Drawing all the possible captures for the piece
-                self.draw_allowed_captures(allowed_captures)
-                has_selected_any_square = False
+                    while not has_selected_any_square:
+                        for event in pygame.event.get():
+                            if event.type == pygame.MOUSEBUTTONDOWN:
+                                select_mouse = pygame.mouse.get_pos()
 
-                while not has_selected_any_square:
-                    for event in pygame.event.get():
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                            select_mouse = pygame.mouse.get_pos()
-
-                            new_i = select_mouse[1] // 64
-                            new_j = select_mouse[0] // 64
-                            
-                            if selected_piece.is_allowed_pos(self, new_i, new_j):
-                                selected_piece.move_to_position(self, new_i, new_j)
-                                has_selected_any_square = True      
-                            elif selected_piece.is_allowed_capture(self, new_i, new_j):
-                                selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
-                                has_selected_any_square = True
+                                new_i = select_mouse[1] // 64
+                                new_j = select_mouse[0] // 64
+                                
+                                if selected_piece.is_allowed_pos(self, new_i, new_j):
+                                    selected_piece.move_to_position(self, new_i, new_j)
+                                    has_selected_any_square = True      
+                                elif selected_piece.is_allowed_capture(self, new_i, new_j):
+                                    selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
+                                    has_selected_any_square = True
+                self.change_color()
