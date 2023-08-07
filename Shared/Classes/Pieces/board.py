@@ -213,11 +213,11 @@ class Board:
             # Loop to get all the square of a row
             for square in row:
                 # Check to see if there is a piece on the square
-                if isinstance(square, piece.Piece):
+                if isinstance(square, piece.Piece) and not isinstance(square, king.King):
                     # Check to see if the found piece is in the attacker team
                     if square.is_white == is_attacker_white:
                         # Adding all the possible moves of the piece to the list
-                        allowed_moves.extend(square.get_allowed_poses())
+                        allowed_moves.extend(square.get_allowed_poses(self))
         # Check to see if the square is under the attack
         if [square_i, square_j] in allowed_moves:
             return True

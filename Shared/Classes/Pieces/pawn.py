@@ -29,15 +29,7 @@ class Pawn(piece.Piece):
                         
             # Second possiblity (if there is no blocking piece on opposite)
             if not board.is_piece_at_pos(self.i + 1, self.j):
-                allowed_moves.append([self.i + 1, self.j])
-
-            # # Third possiblity (if there is a piece on left bottom diagonal)
-            # if board.is_piece_at_pos(self.i + 1, self.j - 1):
-            #     allowed_moves.append([self.i + 1, self.j - 1])
-
-            # # Fourth possiblity (if there is a piece on right bottom diagonal)
-            # if board.is_piece_at_pos(self.i + 1, self.j + 1):
-            #     allowed_moves.append([self.i + 1, self.j + 1])                
+                allowed_moves.append([self.i + 1, self.j])            
  
         # For Blacks (Bottom oriented team)    
         else:
@@ -49,13 +41,6 @@ class Pawn(piece.Piece):
             if not board.is_piece_at_pos(self.i - 1, self.j):
                 allowed_moves.append([self.i - 1, self.j])
 
-            # Third possiblity (if there is a piece on left top diagonal)
-            # if board.is_piece_at_pos(self.i - 1, self.j - 1):
-            #     allowed_moves.append([self.i - 1, self.j - 1])
-
-            # # Fourth possiblity (if there is a piece on right top diagonal)
-            # if board.is_piece_at_pos(self.i - 1, self.j + 1):
-            #     allowed_moves.append([self.i - 1, self.j + 1])  
         
         return allowed_moves
     

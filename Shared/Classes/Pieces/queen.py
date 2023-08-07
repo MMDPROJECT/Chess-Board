@@ -82,7 +82,7 @@ class Queen(piece.Piece):
         return allowed_moves
     
     # This method annonces all the possible captures
-    def get_allowed_poses(self, board: board.Board) -> list[list]:
+    def get_allowed_captures(self, board: board.Board) -> list[list]:
         allowed_captures = []
         
         # Bishop-like moves
