@@ -264,24 +264,34 @@ class Board:
         i = find_mouse[1] // 64 #it requires for row part
         j = find_mouse[0] // 64 #it requires for column part    or (i,j)
         
+        # Getting the selected square
         selected_piece = self.get_peice_at_pos(i, j)
-        if isinstance(selected_piece, piece.Piece):
-            print(f"selected: {selected_piece}, i: {i}, j: {j}")
-            self.draw_allowed_moves(selected_piece.get_allowed_poses(self))
-            print(f"allowed captures: {selected_piece.get_allowed_captures(self)}")
-            self.draw_allowed_captures(selected_piece.get_allowed_captures(self))
-            has_selected_any_square = False
-            while not has_selected_any_square:
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        select_mouse = pygame.mouse.get_pos()
 
-                        new_i = select_mouse[1] // 64
-                        new_j = select_mouse[0] // 64
-                        
-                        if selected_piece.is_allowed_pos(self, new_i, new_j):
-                            selected_piece.move_to_position(self, new_i, new_j)
-                            has_selected_any_square = True      
-                        if selected_piece.is_allowed_capture(self, new_i, new_j):
-                            selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
-                            has_selected_any_square = True
+        # Check if it's a piece
+        if isinstance(selected_piece, piece.Piece):
+            # Calculating all the possible moves and captures
+            allowed_poses = selected_piece.get_allowed_poses(self)
+            allowed_captures = selected_piece.get_allowed_captures(self)
+
+            # Checking if it's not empty
+            if allowed_captures != [] or allowed_poses != []:            
+                # Drawing all the possible moves for the piece
+                self.draw_allowed_moves(allowed_poses)
+                # Drawing all the possible captures for the piece
+                self.draw_allowed_captures(allowed_captures)
+                has_selected_any_square = False
+
+                while not has_selected_any_square:
+                    for event in pygame.event.get():
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                            select_mouse = pygame.mouse.get_pos()
+
+                            new_i = select_mouse[1] // 64
+                            new_j = select_mouse[0] // 64
+                            
+                            if selected_piece.is_allowed_pos(self, new_i, new_j):
+                                selected_piece.move_to_position(self, new_i, new_j)
+                                has_selected_any_square = True      
+                            elif selected_piece.is_allowed_capture(self, new_i, new_j):
+                                selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
+                                has_selected_any_square = True
