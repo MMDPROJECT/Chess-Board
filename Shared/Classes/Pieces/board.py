@@ -192,10 +192,10 @@ class Board:
     def is_piece_at_pos(self, pos_i: int, pos_j: int) -> bool:
         return isinstance(self.board[pos_i][pos_j], piece.Piece)
 
-    # This method checks to see if there is an enemy piece at the specified square 
-    def is_enemy_piece_at_pos(self, pos_i: int, pos_j: int, is_white: bool) -> bool:
+    # This method checks to see if there is an enemy piece at the specified square (Notice: Returns false if enemy king is at that position)
+    def is_enemy_piece_at_pos(self, pos_i: int, pos_j: int, is_attacker_white: bool) -> bool:
         obj_at_pos = self.board[pos_i][pos_j]
-        if isinstance(obj_at_pos, piece.Piece) and obj_at_pos.is_white != is_white:
+        if isinstance(obj_at_pos, piece.Piece) and not isinstance(obj_at_pos, king.King) and obj_at_pos.is_white != is_attacker_white:
             return True
         return False
     
