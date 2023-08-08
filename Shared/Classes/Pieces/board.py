@@ -39,9 +39,6 @@ dict_images = {
 
 
 class Board:
-    
-    is_black = False
-
     def __init__(self):
         self.board = [
             # 0 means empty white square
@@ -55,6 +52,7 @@ class Board:
             [0,1,0,1,0,1,0,1],
             [1,0,1,0,1,0,1,0]
         ]
+        self.is_white_turn = True
         self.cnstr_board()
 
     # This method constructs the board
@@ -263,11 +261,10 @@ class Board:
             pygame.display.update()
             
     def change_color(self):
-        if self.is_black == True:
-            self.is_black = False
+        if self.is_white_turn:
+            self.is_white_turn = False
         else:
-            self.is_black = True
-        print(self.is_black)
+            self.is_white_turn = True
         
     def find_piece(self, find_mouse) -> None:
         
@@ -276,11 +273,11 @@ class Board:
         
         # Getting the selected square
         selected_piece = self.get_peice_at_pos(i, j)
-        is_white = selected_piece.called_color()
        
-        if self.is_black == is_white :
-            # Check if it's a piece
-            if isinstance(selected_piece, piece.Piece):
+        # Check if it's a piece
+        if isinstance(selected_piece, piece.Piece):
+            # Check if it has premission to move the piece
+            if self.is_white_turn == selected_piece.is_white:
                 # Calculating all the possible moves and captures
                 allowed_poses = selected_piece.get_allowed_poses(self)
                 allowed_captures = selected_piece.get_allowed_captures(self)
