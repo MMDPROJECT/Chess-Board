@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 import os
 import pygame
-
+import numpy as np
 sys.path.append(os.getcwd() + "/Pieces")
 
 import piece
@@ -17,7 +17,7 @@ import king
 square_size = 64
 colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3), (255, 0, 0)] 
 width, height = 512,512
-window = pygame.display.set_mode((width, height))
+window = pygame.display.set_mode((600,600))
 
 #set up image of pieces
 
