@@ -24,21 +24,21 @@ class Pawn(piece.Piece):
         # For Whites (Top oriented team)
         if self.is_white:
             # First possiblity (if it's the first move, and there is not blocking piece on opposite, it can move two squares)
-            if not self.has_moved and not board.is_piece_at_pos(self.i + 1, self.j):
+            if 0 <= self.i + 2 <= 7 and 0 <= self.j <= 7 and not self.has_moved and not board.is_piece_at_pos(self.i + 2, self.j):
                 allowed_moves.append([self.i + 2, self.j])
                         
             # Second possiblity (if there is no blocking piece on opposite)
-            if not board.is_piece_at_pos(self.i + 1, self.j):
+            if 0 <= self.i + 1 <= 7 and 0 <= self.j <= 7 and not board.is_piece_at_pos(self.i + 1, self.j):
                 allowed_moves.append([self.i + 1, self.j])            
  
         # For Blacks (Bottom oriented team)    
         else:
             # First possiblity (if it's the first move, and there is not blocking piece on opposite, it can move two squares)
-            if not self.has_moved and not board.is_piece_at_pos(self.i - 1, self.j):
+            if 0 <= self.i - 2 <= 7 and 0 <= self.j <= 7 and not self.has_moved and not board.is_piece_at_pos(self.i - 2, self.j):
                 allowed_moves.append([self.i - 2, self.j])
                         
             # Second possiblity (if there is no blocking piece on opposite)
-            if not board.is_piece_at_pos(self.i - 1, self.j):
+            if 0 <= self.i - 1 <= 7 and 0 <= self.j <= 7 and not board.is_piece_at_pos(self.i - 1, self.j):
                 allowed_moves.append([self.i - 1, self.j])
 
         
@@ -49,21 +49,21 @@ class Pawn(piece.Piece):
         # For Whites (Top oriented team)
         if self.is_white:
             # First possiblity (if there is a piece on left bottom diagonal)
-            if board.is_enemy_piece_at_pos(self.i + 1, self.j - 1, self.is_white):
+            if 0 <= self.i + 1 <= 7 and 0 <= self.j - 1 <= 7 and board.is_enemy_piece_at_pos(self.i + 1, self.j - 1, self.is_white):
                 allowed_captures.append([self.i + 1, self.j - 1])
 
             # Second possiblity (if there is a piece on right bottom diagonal)
-            if board.is_enemy_piece_at_pos(self.i + 1, self.j + 1, self.is_white):
+            if 0 <= self.i + 1 <= 7 and 0 <= self.j + 1 <= 7 and board.is_enemy_piece_at_pos(self.i + 1, self.j + 1, self.is_white):
                 allowed_captures.append([self.i + 1, self.j + 1])                
  
         # For Blacks (Bottom oriented team)    
         else:
             # First possiblity (if there is a piece on left top diagonal)
-            if board.is_enemy_piece_at_pos(self.i - 1, self.j - 1, self.is_white):
+            if 0 <= self.i - 1 <= 7 and 0 <= self.j - 1 <= 7 and board.is_enemy_piece_at_pos(self.i - 1, self.j - 1, self.is_white):
                 allowed_captures.append([self.i - 1, self.j - 1])
 
             # Second possiblity (if there is a piece on right top diagonal)
-            if board.is_enemy_piece_at_pos(self.i - 1, self.j + 1, self.is_white):
+            if 0 <= self.i - 1 <= 7 and 0 <= self.j + 1 <= 7 and board.is_enemy_piece_at_pos(self.i - 1, self.j + 1, self.is_white):
                 allowed_captures.append([self.i - 1, self.j + 1])  
         
         return allowed_captures

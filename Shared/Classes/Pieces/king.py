@@ -94,8 +94,11 @@ class King(piece.Piece):
         return "king"
     
     # This will change 'is_checked' state of the king 
-    def set_check(self, is_checked: bool):
-        self.is_checked = is_checked
+    def toggle_check(self):
+        if self.is_checked == True:
+            self.is_checked = False
+        else:
+            self.is_checked = True
 
     # This will check mate the king
     def check_mate(self):

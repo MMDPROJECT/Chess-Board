@@ -39,9 +39,6 @@ dict_images = {
 
 
 class Board:
-    
-    is_black = False
-
     def __init__(self):
         self.board = [
             # 0 means empty white square
@@ -55,6 +52,8 @@ class Board:
             [0,1,0,1,0,1,0,1],
             [1,0,1,0,1,0,1,0]
         ]
+        self.is_white_turn = True
+        self.is_finished = False
         self.cnstr_board()
 
     # This method constructs the board
@@ -193,9 +192,9 @@ class Board:
         return isinstance(self.board[pos_i][pos_j], piece.Piece)
 
     # This method checks to see if there is an enemy piece at the specified square 
-    def is_enemy_piece_at_pos(self, pos_i: int, pos_j: int, is_white: bool) -> bool:
+    def is_enemy_piece_at_pos(self, pos_i: int, pos_j: int, is_attacker_white: bool) -> bool:
         obj_at_pos = self.board[pos_i][pos_j]
-        if isinstance(obj_at_pos, piece.Piece) and obj_at_pos.is_white != is_white:
+        if isinstance(obj_at_pos, piece.Piece) and obj_at_pos.is_white != is_attacker_white:
             return True
         return False
     
@@ -210,7 +209,7 @@ class Board:
     # This method check if a square is already targeted
     def is_square_targeted(self, is_attacker_white: bool, square_i: int, square_j: int) -> bool:
         # A list that contains all the possible moves of the attacker team
-        allowed_moves = []
+        allowed_moves_and_captures = []
         # Loop to get all the rows of the board
         for row in self.board:
             # Loop to get all the square of a row
@@ -220,10 +219,17 @@ class Board:
                     # Check to see if the found piece is in the attacker team
                     if square.is_white == is_attacker_white:
                         # Adding all the possible moves of the piece to the list
-                        allowed_moves.extend(square.get_allowed_poses(self))
+                        allowed_moves_and_captures.extend(square.get_allowed_poses(self))
+                        allowed_moves_and_captures.extend(square.get_allowed_captures(self))
+                        # print(f"""
+                        #     piece: {square}, iswhite {square.is_white}
+                        #     square.get_allowed_poses(self): {square.get_allowed_poses(self)}
+                        #     square.get_allowed_captures(self): {square.get_allowed_captures(self)}""")
         # Check to see if the square is under the attack
-        if [square_i, square_j] in allowed_moves:
+        if [square_i, square_j] in allowed_moves_and_captures:
             return True
+        else:
+            return False
         
     # This method draws the raw-empty board on the screen
     def draw_empty_board(self) -> None:
@@ -261,13 +267,27 @@ class Board:
             square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
             pygame.draw.rect(window, colors[3], square_rect, 5)
             pygame.display.update()
+
+    # This methods finds king of an specific team 
+    def find_king(self, is_king_white: bool) -> king.King:
+        for row in self.board:
+            for square in row:
+                # Check if it's a king
+                if isinstance(square, king.King):
+                    # Check if it's color is the same thing
+                    if square.is_white == is_king_white:
+                        return square
+                    
+    def is_king_targeted(self, is_king_white: bool) -> bool:
+        king = self.find_king(is_king_white)
+        # print(f"is_white: {is_king_white}, i: {king.i}, j: {king.j}")
+        return self.is_square_targeted(not king.is_white, king.i, king.j)
             
     def change_color(self):
-        if self.is_black == True:
-            self.is_black = False
+        if self.is_white_turn:
+            self.is_white_turn = False
         else:
-            self.is_black = True
-        print(self.is_black)
+            self.is_white_turn = True
         
     def find_piece(self, find_mouse) -> None:
         
@@ -276,11 +296,11 @@ class Board:
         
         # Getting the selected square
         selected_piece = self.get_peice_at_pos(i, j)
-        is_white = selected_piece.called_color()
        
-        if self.is_black == is_white :
-            # Check if it's a piece
-            if isinstance(selected_piece, piece.Piece):
+        # Check if it's a piece
+        if isinstance(selected_piece, piece.Piece):
+            # Check if it has premission to move the piece
+            if self.is_white_turn == selected_piece.is_white:
                 # Calculating all the possible moves and captures
                 allowed_poses = selected_piece.get_allowed_poses(self)
                 allowed_captures = selected_piece.get_allowed_captures(self)
@@ -307,4 +327,22 @@ class Board:
                                 elif selected_piece.is_allowed_capture(self, new_i, new_j):
                                     selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
                                     has_selected_any_square = True
+
+                # Check if the white king is targeted
+                if self.is_king_targeted(is_king_white= True):
+                    white_king = self.find_king(True)
+                    white_king.toggle_check()
+                    if white_king.get_allowed_poses(self) == [] and white_king.get_allowed_captures(self) == []:
+                        white_king.check_mate()
+                        self.is_finished = True
+                
+                # Check if the black king is targeted
+                if self.is_king_targeted(False):
+                    black_king = self.find_king(is_king_white= False)
+                    black_king.toggle_check()
+                    if black_king.get_allowed_poses(self) == [] and black_king.get_allowed_captures(self) == []:
+                        black_king.check_mate()
+                        self.is_finished = True
+                
+                # Switch turns
                 self.change_color()

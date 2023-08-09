@@ -11,7 +11,7 @@ clock = pygame.time.Clock() # Clock obj to control the frame rate
 
 def main():
     run = True
-    while run:
+    while run and not display_board.is_finished:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
