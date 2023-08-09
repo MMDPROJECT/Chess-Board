@@ -19,6 +19,12 @@ def main():
                 find_mouse = pygame.mouse.get_pos()
                 display_board.find_piece(find_mouse)
 
+        ticks=pygame.time.get_ticks()
+        millis=ticks%1000
+        seconds=int(ticks/1000 % 60)
+        minutes=int(ticks/60000 % 24)
+        out='{minutes:02d}:{seconds:02d}'.format(minutes=minutes, seconds=seconds)
+        pygame.display.set_caption(out)
         display_board.draw_empty_board()
         display_board.draw_pieces_on_board()
         pygame.display.update()
