@@ -278,10 +278,49 @@ class Board:
                     if square.is_white == is_king_white:
                         return square
                     
-    def is_king_targeted(self, is_king_white: bool) -> bool:
+    def is_king_checked(self, is_king_white: bool) -> bool:
         king = self.find_king(is_king_white)
         # print(f"is_white: {is_king_white}, i: {king.i}, j: {king.j}")
         return self.is_square_targeted(not king.is_white, king.i, king.j)
+    
+    def is_king_check_mated(self, is_king_white: bool) -> bool:
+
+        king = self.find_king(is_king_white)
+        # Checking all 8 directions (top left, top, top right, right, bottom right, bottom, bottom left, left)
+        # Top left
+        if 0 <= king.i - 1 <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i - 1, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j - 1):
+            return False
+        
+        # Top
+        elif 0 <= king.i - 1 <= 7 and 0 <= king.j <= 7 and not self.is_piece_at_pos(king.i - 1, king.j) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j):
+            return False
+        
+        # Top right
+        elif 0 <= king.i - 1 <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i - 1, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j + 1):
+            return False
+        
+        # Right
+        elif 0 <= king.i <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i, king.j + 1):
+            return False
+        
+        # Bottom right
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i + 1, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j + 1):
+            return False
+        
+        # Bottom
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j <= 7 and not self.is_piece_at_pos(king.i + 1, king.j) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j):
+            return False
+        
+        # Bottom left
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i + 1, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j - 1):
+            return False
+
+        # Left
+        elif 0 <= king.i <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i, king.j - 1):
+            return False
+        
+        return True
+
             
     def switch_turn(self):
         if self.is_white_turn:
@@ -329,18 +368,18 @@ class Board:
                                     has_selected_any_square = True
 
                 # Check if the white king is targeted
-                if self.is_king_targeted(is_king_white= True):
-                    white_king = self.find_king(True)
+                if self.is_king_checked(is_king_white= True):
+                    white_king = self.find_king(is_king_white= True)
                     white_king.toggle_check()
-                    if white_king.get_allowed_poses(self) == [] and white_king.get_allowed_captures(self) == []:
+                    if self.is_king_check_mated(is_king_white= True):
                         white_king.check_mate()
                         self.is_finished = True
                 
                 # Check if the black king is targeted
-                if self.is_king_targeted(False):
+                if self.is_king_checked(is_king_white= False):
                     black_king = self.find_king(is_king_white= False)
                     black_king.toggle_check()
-                    if black_king.get_allowed_poses(self) == [] and black_king.get_allowed_captures(self) == []:
+                    if self.is_king_check_mated(is_king_white= False):
                         black_king.check_mate()
                         self.is_finished = True
                 
