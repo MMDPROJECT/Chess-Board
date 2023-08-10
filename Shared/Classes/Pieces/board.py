@@ -16,7 +16,7 @@ import team
 # Size of each square
 square_size = 64
 # White, Black, Yellow and Red colors
-colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3), (255, 0, 0)] 
+colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3), (255, 0, 0), (7, 3, 252)] 
 # Width and Height of the board
 width, height = 512,512
 window = pygame.display.set_mode((width, height))
@@ -156,6 +156,14 @@ class Board:
             pygame.draw.rect(window, colors[3], square_rect, 5)
             pygame.display.update()
 
+    def draw_allowed_castle_moves(self, allowed_castle_moves: list[list]) -> None:
+        for l in allowed_castle_moves:
+            i, j = l[0], l[1]
+            square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
+            pygame.draw.rect(window, colors[4], square_rect, 5)
+            pygame.display.update()
+    
+
     
     # --------------------------------------------------- METHODS RELATED TO PROCESSING THE GAME ---------------------------------------------------             
     def switch_turn(self):
@@ -174,10 +182,14 @@ class Board:
        
         # Check if it's a piece
         if isinstance(selected_piece, piece.Piece):
+            playing_team = None
+            if selected_piece.is_white:
+                playing_team = self.white_team
+            else:
+                playing_team = self.black_team
+
             # Check if it has premission to move the piece
             if self.is_white_turn == selected_piece.is_white:
-
-
                 # Check if white is checked and intend to move a move other than it's king
                 if self.is_white_turn and self.white_team.is_checked and not isinstance(selected_piece, king.King):
                     return
@@ -190,13 +202,20 @@ class Board:
                 # Calculating all the possible moves and captures
                 allowed_poses = selected_piece.get_allowed_poses(self)
                 allowed_captures = selected_piece.get_allowed_captures(self)
+                allowed_castle_moves = []
+
+                if isinstance(selected_piece, king.King):
+                    allowed_castle_moves = playing_team.get_available_castle_moves(self)
 
                 # Checking if it's not empty
-                if allowed_captures != [] or allowed_poses != []:            
+                if allowed_captures != [] or allowed_poses != [] or allowed_castle_moves != []:            
                     # Drawing all the possible moves for the piece
                     self.draw_allowed_moves(allowed_poses)
                     # Drawing all the possible captures for the piece
                     self.draw_allowed_captures(allowed_captures)
+                    # Drawing all the possible castle moves for the king (if and only if it's selected)
+                    self.draw_allowed_castle_moves(allowed_castle_moves)
+                    
                     has_selected_any_square = False
 
                     while not has_selected_any_square:
@@ -212,6 +231,12 @@ class Board:
                                     has_selected_any_square = True      
                                 elif selected_piece.is_allowed_capture(self, new_i, new_j):
                                     selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
+                                    has_selected_any_square = True
+                                elif [new_i, new_j] in allowed_castle_moves:
+                                    if new_j >= playing_team.king.j:
+                                        playing_team.do_castle_move(True, self)
+                                    else:
+                                        playing_team.do_castle_move(False, self)
                                     has_selected_any_square = True
 
                     # Check if the white king is targeted
