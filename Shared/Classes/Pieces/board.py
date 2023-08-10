@@ -176,6 +176,17 @@ class Board:
         if isinstance(selected_piece, piece.Piece):
             # Check if it has premission to move the piece
             if self.is_white_turn == selected_piece.is_white:
+
+
+                # Check if white is checked and intend to move a move other than it's king
+                if self.is_white_turn and self.white_team.is_checked and not isinstance(selected_piece, king.King):
+                    return
+                # Check if black is checked and intend to move a move other than it's king
+                elif not self.is_white_turn and self.black_team.is_checked and not isinstance(selected_piece, king.King):
+                    return
+                
+                # Otherwise run this section down below 
+
                 # Calculating all the possible moves and captures
                 allowed_poses = selected_piece.get_allowed_poses(self)
                 allowed_captures = selected_piece.get_allowed_captures(self)
