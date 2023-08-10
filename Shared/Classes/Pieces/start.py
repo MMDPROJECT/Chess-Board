@@ -23,7 +23,7 @@ def main():
         display_board.draw_pieces_on_board()
         pygame.display.update()
         clock.tick(60)
-    
+
         
     
     pygame.quit()
