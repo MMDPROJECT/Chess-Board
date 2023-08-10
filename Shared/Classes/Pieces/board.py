@@ -283,7 +283,7 @@ class Board:
         # print(f"is_white: {is_king_white}, i: {king.i}, j: {king.j}")
         return self.is_square_targeted(not king.is_white, king.i, king.j)
             
-    def change_color(self):
+    def switch_turn(self):
         if self.is_white_turn:
             self.is_white_turn = False
         else:
@@ -345,4 +345,4 @@ class Board:
                         self.is_finished = True
                 
                 # Switch turns
-                self.change_color()
+                self.switch_turn()
