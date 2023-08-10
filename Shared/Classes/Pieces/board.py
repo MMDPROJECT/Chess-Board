@@ -214,19 +214,19 @@ class Board:
                                     selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
                                     has_selected_any_square = True
 
-                # Check if the white king is targeted
-                if self.white_team.is_king_checked(self):
-                    self.white_team.set_check_status(is_checked= True)
-                    if self.white_team.is_king_check_mated(self):
-                        self.white_team.check_mate()
-                        self.is_finished = True
-                
-                # Check if the black king is targeted
-                if self.black_team.is_king_checked(self):
-                    self.black_team.set_check_status(is_checked= True)
-                    if self.black_team.is_king_check_mated(self):
-                        self.black_team.check_mate()
-                        self.is_finished = True
-                
-                # Switch turns
-                self.switch_turn()
+                    # Check if the white king is targeted
+                    if self.white_team.is_king_checked(self):
+                        self.white_team.set_check_status(is_checked= True)
+                        if self.white_team.is_king_check_mated(self):
+                            self.white_team.check_mate()
+                            self.is_finished = True
+                    
+                    # Check if the black king is targeted
+                    if self.black_team.is_king_checked(self):
+                        self.black_team.set_check_status(is_checked= True)
+                        if self.black_team.is_king_check_mated(self):
+                            self.black_team.check_mate()
+                            self.is_finished = True
+                    
+                    # Switch turns
+                    self.switch_turn()
