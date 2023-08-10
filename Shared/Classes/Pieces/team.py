@@ -61,8 +61,10 @@ class Team:
             queen_white = queen.Queen(0, 3, True, dict_images["white_queen"])
             king_white = king.King(0, 4, True, dict_images["white_king"])
 
-            # Setting the team's king
+            # Setting the some special pieces 
             self.king = king_white
+            self.r_rook = rook_white_1
+            self.l_rook = rook_white_0
 
             pieces.append(pawn_white_0)
             pieces.append(pawn_white_1)
@@ -108,8 +110,10 @@ class Team:
             queen_black = queen.Queen(7, 3, False, dict_images["black_queen"])
             king_black = king.King(7, 4, False, dict_images["black_king"])
 
-            # Setting the team's king
+            # Setting the some special pieces 
             self.king = king_black
+            self.r_rook = rook_black_1
+            self.l_rook = rook_black_0
 
             pieces.append(pawn_black_0)
             pieces.append(pawn_black_1)
@@ -134,7 +138,7 @@ class Team:
 
         return pieces 
     
-
+    # --------------------------------------------------- METHODS RELATED TO CHECKING ---------------------------------------------------
     def is_king_checked(self, board: board.Board) -> bool:
         return board.is_square_targeted(not self.is_white, self.king.i, self.king.j)
     
@@ -174,8 +178,39 @@ class Team:
         
         return True
 
+    def get_available_castle_moves(self, board: board.Board) -> list[list]:
+        available_castle_moves = []
+
+        # Checking for right castle move
+        if not self.r_rook.has_moved and not self.king.has_moved:
+            # Check to make sure all the squares are empty between
+            if not board.is_piece_at_pos(self.king.i, self.king.j + 1) and not board.is_piece_at_pos(self.king.i, self.king.j + 2):
+                # Check to make sure none of the squares is targeted by enemy pieces
+                if not board.is_square_targeted(not self.is_white, self.king.i, self.king.j) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 1) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 2) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 3):
+                    available_castle_moves.append([self.king.i, self.king.j + 2])
+
+        # Checking for left castle move
+        if not self.l_rook.has_moved and not self.king.has_moved:
+            # Check to make sure all the squares are empty between
+            if not board.is_piece_at_pos(self.king.i, self.king.j - 1) and not board.is_piece_at_pos(self.king.i, self.king.j - 2) and not board.is_piece_at_pos(self.king.i, self.king.j - 3):
+                # Check to make sure none of the squares is targeted by enemy pieces
+                if not board.is_square_targeted(not self.is_white, self.king.i, self.king.j) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 1) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 2) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 3) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 4):
+                    available_castle_moves.append([self.king.i, self.king.j - 2])
+            
+        return available_castle_moves
+
+    def do_castle_move(self, is_right_castle_move: bool, board: board.Board):
+        # If it's right castle move
+        if is_right_castle_move:
+            self.king.move_to_position(board, self.king.i, self.king.j + 2)
+            self.r_rook.move_to_position(board, self.r_rook.i, self.r_rook.j - 2)
+        # Other-wise it's left castle move
+        else:
+            self.king.move_to_position(board, self.king.i, self.king.j - 2)
+            self.r_rook.move_to_position(board, self.r_rook.i, self.r_rook.j + 3)
+
     # This will change 'is_checked' state of the team
-    def set_check_status(self, is_checked: bool):
+    def set_check_status(self, is_checked: bool) -> None:
         self.is_checked = is_checked
 
     # This will check mate the king
