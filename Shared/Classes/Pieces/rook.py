@@ -11,6 +11,11 @@ import board
 class Rook(piece.Piece):
     def __init__(self, i: int, j: int, is_white: bool, image):
         super().__init__(i, j, is_white, image)
+        self.has_moved = False
+
+    def move_to_position(self, board: board.Board, new_i: int, new_j: int) -> None:
+        super().move_to_position(board, new_i, new_j)
+        self.has_moved = True
     
     # This method annonces all the possible moves
     def get_allowed_poses(self, board: board.Board) -> list[list]:

@@ -17,7 +17,7 @@ def main():
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 find_mouse = pygame.mouse.get_pos()
-                display_board.find_piece(find_mouse)
+                display_board.process_player_choice(find_mouse)
 
         ticks=pygame.time.get_ticks()
         millis=ticks%1000
@@ -29,7 +29,7 @@ def main():
         display_board.draw_pieces_on_board()
         pygame.display.update()
         clock.tick(60)
-    
+
         
     
     pygame.quit()
