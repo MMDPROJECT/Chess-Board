@@ -61,7 +61,7 @@ class Team:
             queen_white = queen.Queen(0, 3, True, dict_images["white_queen"])
             king_white = king.King(0, 4, True, dict_images["white_king"])
 
-            # Setting the some special pieces 
+            # Setting some special pieces 
             self.king = king_white
             self.r_rook = rook_white_1
             self.l_rook = rook_white_0

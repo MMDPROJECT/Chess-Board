@@ -21,7 +21,7 @@ square_size = 64
 colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3), (255, 0, 0), (7, 3, 252)] 
 # Width and Height of the board
 width, height = 512,512
-window = pygame.display.set_mode((600,512))
+window = pygame.display.set_mode((512,512))
 
 class Board:
     def __init__(self):
@@ -68,7 +68,7 @@ class Board:
             self.board[piece_i][piece_j] = 1  # 1 means empty black square
         
     # This method return the current piece that's on the specifed position, otherwise it return 1 or 0 which means empty squares
-    def get_peice_at_pos(self, piece_i: int, piece_j: int) -> piece.Piece:
+    def get_piece_at_pos(self, piece_i: int, piece_j: int) -> piece.Piece:
         return self.board[piece_i][piece_j]
     
     # This methods finds king of an specific team 
@@ -235,7 +235,7 @@ class Board:
         j = find_mouse[0] // 64 #it requires for column part    or (i,j)
         
         # Getting the selected square
-        selected_piece = self.get_peice_at_pos(i, j)
+        selected_piece = self.get_piece_at_pos(i, j)
        
         # Check if it's a piece
         if isinstance(selected_piece, piece.Piece):
@@ -287,7 +287,7 @@ class Board:
                                     selected_piece.move_to_position(self, new_i, new_j)
                                     has_selected_any_square = True      
                                 elif selected_piece.is_allowed_capture(self, new_i, new_j):
-                                    selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
+                                    selected_piece.capture(self, new_i, new_j, self.get_piece_at_pos(new_i, new_j))
                                     has_selected_any_square = True
                                 elif [new_i, new_j] in allowed_castle_moves:
                                     if new_j >= playing_team.king.j:

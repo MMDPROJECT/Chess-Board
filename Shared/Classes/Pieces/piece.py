@@ -53,4 +53,4 @@ class Piece:
         return [new_i, new_j] in self.get_allowed_captures(board)
         
     def __call__(self):
-        return f"peice with i:{self.i} j:{self.j} and is_white{self.is_white}"
+        return f"piece with i:{self.i} j:{self.j} and is_white{self.is_white}"
