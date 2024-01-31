@@ -1,0 +1,387 @@
+from __future__ import annotations
+
+import sys
+import os
+import pygame
+import numpy as np
+sys.path.append(os.getcwd() + "/Pieces")
+
+import piece
+import pawn
+import rook
+import knight
+import bishop
+import queen
+import king
+
+square_size = 64
+colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3), (255, 0, 0)] 
+width, height = 512,512
+window = pygame.display.set_mode((600,512))
+
+#set up image of pieces
+
+dict_images = {
+  "black_pawn": pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_pdt60.png')),
+  "black_rook": pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_rdt60.png')),
+  "black_king":  pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_qdt60.png')),
+  "black_knight":  pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_ndt60.png')),
+  "black_queen":  pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_kdt60.png')),
+  "black_bishop":  pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_bdt60.png')),
+  
+  "white_pawn" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_plt60.png')),
+  "white_rook" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_rlt60.png')),
+  "white_king" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_qlt60.png')),
+  "white_knight" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_nlt60.png')),
+  "white_queen" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_klt60.png')),
+  "white_bishop" : pygame.image.load(os.path.join(os.getcwd() + '/Shared/Classes/Image/Chess_blt60.png'))
+}
+
+
+class Board:
+    def __init__(self):
+        self.board = [
+            # 0 means empty white square
+            # 1 means empty black square
+            [0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0],
+            [0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0],
+            [0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0],
+            [0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0]
+        ]
+        self.is_white_turn = True
+        self.is_finished = False
+        self.cnstr_board()
+
+    # This method constructs the board
+    def cnstr_board(self) -> None:
+        # Constructing all the pieces and placing them...
+        self.place_pieces(Board.cnstr_whites())
+        self.place_pieces(Board.cnstr_blacks())
+
+    # This method places all the pieces on the chess-board
+    def place_pieces(self, pieces: list[piece.Piece]) -> None:
+        for piece in pieces:
+            piece.place_on_board(self)
+    
+    # This method constructs all the white pieces
+    @staticmethod
+    def cnstr_whites() -> list:
+        white_pieces = []
+        # Pawns
+        pawn_white_0 = pawn.Pawn(1, 0, True, dict_images["white_pawn"])
+        pawn_white_1 = pawn.Pawn(1, 1, True, dict_images["white_pawn"])
+        pawn_white_2 = pawn.Pawn(1, 2, True, dict_images["white_pawn"])
+        pawn_white_3 = pawn.Pawn(1, 3, True, dict_images["white_pawn"])
+        pawn_white_4 = pawn.Pawn(1, 4, True, dict_images["white_pawn"])
+        pawn_white_5 = pawn.Pawn(1, 5, True, dict_images["white_pawn"])
+        pawn_white_6 = pawn.Pawn(1, 6, True, dict_images["white_pawn"])
+        pawn_white_7 = pawn.Pawn(1, 7, True, dict_images["white_pawn"])
+        # Rooks
+        rook_white_0 = rook.Rook(0, 0, True, dict_images["white_rook"])
+        rook_white_1 = rook.Rook(0, 7, True, dict_images["white_rook"])
+        # Knights
+        knight_white_0 = knight.Knight(0, 1, True, dict_images["white_knight"])
+        knight_white_1 = knight.Knight(0, 6, True, dict_images["white_knight"])
+        # Bishops
+        bishop_white_0 = bishop.Bishop(0, 2, True, dict_images["white_bishop"])
+        bishop_white_1 = bishop.Bishop(0, 5, True, dict_images["white_bishop"])
+        # Royal familiy
+        queen_white = queen.Queen(0, 3, True, dict_images["white_queen"])
+        king_white = king.King(0, 4, True, dict_images["white_king"])
+
+        white_pieces.append(pawn_white_0)
+        white_pieces.append(pawn_white_1)
+        white_pieces.append(pawn_white_2)
+        white_pieces.append(pawn_white_3)
+        white_pieces.append(pawn_white_4)
+        white_pieces.append(pawn_white_5)
+        white_pieces.append(pawn_white_6)
+        white_pieces.append(pawn_white_7)
+
+        white_pieces.append(rook_white_0)
+        white_pieces.append(rook_white_1)
+
+        white_pieces.append(knight_white_0)
+        white_pieces.append(knight_white_1)
+
+        white_pieces.append(bishop_white_0)
+        white_pieces.append(bishop_white_1)
+
+        white_pieces.append(queen_white)
+        white_pieces.append(king_white)
+
+        return white_pieces
+
+    # This method constructs all the black pieces
+    @staticmethod
+    def cnstr_blacks() -> list:
+        black_pieces = []
+        # Pawns
+        pawn_black_0 = pawn.Pawn(6, 0, False, dict_images["black_pawn"])
+        pawn_black_1 = pawn.Pawn(6, 1, False, dict_images["black_pawn"])
+        pawn_black_2 = pawn.Pawn(6, 2, False, dict_images["black_pawn"])
+        pawn_black_3 = pawn.Pawn(6, 3, False, dict_images["black_pawn"])
+        pawn_black_4 = pawn.Pawn(6, 4, False, dict_images["black_pawn"])
+        pawn_black_5 = pawn.Pawn(6, 5, False, dict_images["black_pawn"])
+        pawn_black_6 = pawn.Pawn(6, 6, False, dict_images["black_pawn"])
+        pawn_black_7 = pawn.Pawn(6, 7, False, dict_images["black_pawn"])
+        # Rooks
+        rook_black_0 = rook.Rook(7, 0, False, dict_images["black_rook"])
+        rook_black_1 = rook.Rook(7, 7, False, dict_images["black_rook"])
+        # Knights
+        knight_black_0 = knight.Knight(7, 1, False, dict_images["black_knight"])
+        knight_black_1 = knight.Knight(7, 6, False, dict_images["black_knight"])
+        # Bishops
+        bishop_black_0 = bishop.Bishop(7, 2, False, dict_images["black_bishop"])
+        bishop_black_1 = bishop.Bishop(7, 5, False, dict_images["black_bishop"])
+        # Royal familiy
+        queen_black = queen.Queen(7, 3, False, dict_images["black_queen"])
+        king_black = king.King(7, 4, False, dict_images["black_king"])
+
+        black_pieces.append(pawn_black_0)
+        black_pieces.append(pawn_black_1)
+        black_pieces.append(pawn_black_2)
+        black_pieces.append(pawn_black_3)
+        black_pieces.append(pawn_black_4)
+        black_pieces.append(pawn_black_5)
+        black_pieces.append(pawn_black_6)
+        black_pieces.append(pawn_black_7)
+
+        black_pieces.append(rook_black_0)
+        black_pieces.append(rook_black_1)
+
+        black_pieces.append(knight_black_0)
+        black_pieces.append(knight_black_1)
+
+        black_pieces.append(bishop_black_0)
+        black_pieces.append(bishop_black_1)
+
+        black_pieces.append(queen_black)
+        black_pieces.append(king_black)
+
+        return black_pieces
+
+    # This methods places a piece on the board
+    def place_on_board(self, piece_i: int, piece_j: int, piece: piece.Piece) -> None:
+        self.board[piece_i][piece_j] = piece
+        # window.blit(dict_images[f"white_{piece}"],pygame.Rect( piece_j * square_size , piece_i * square_size , square_size , square_size))
+        # pygame.display.update()
+    
+                
+    # This methods empties the square that has been taken by a piece
+    def empty_square(self, piece_i: int, piece_j: int) -> None:
+        # Check to see that should be white or black
+        if (piece_i + piece_j) % 2 == 0:
+            self.board[piece_i][piece_j] = 0  # 0 means empty white square
+            # pygame.draw.rect(window, colors[1], pygame.Rect(piece_j * square_size , piece_i* square_size , square_size , square_size))
+        else :
+            self.board[piece_i][piece_j] = 1  # 1 means empty black square
+            # pygame.draw.rect(window, colors[0], pygame.Rect(piece_j * square_size , piece_i * square_size , square_size , square_size))
+        # pygame.display.update()
+        
+    # This method return the current piece that's on the specifed position, otherwise it return 1 or 0 which means empty squares
+    def get_peice_at_pos(self, piece_i: int, piece_j: int) -> piece.Piece:
+        return self.board[piece_i][piece_j]
+    
+    # This method checks to see if there is any piece on the specifed square
+    def is_piece_at_pos(self, pos_i: int, pos_j: int) -> bool:
+        return isinstance(self.board[pos_i][pos_j], piece.Piece)
+
+    # This method checks to see if there is an enemy piece at the specified square 
+    def is_enemy_piece_at_pos(self, pos_i: int, pos_j: int, is_attacker_white: bool) -> bool:
+        obj_at_pos = self.board[pos_i][pos_j]
+        if isinstance(obj_at_pos, piece.Piece) and obj_at_pos.is_white != is_attacker_white:
+            return True
+        return False
+    
+    # This method checks to see if there is an team piece at the specifed square
+    def is_team_piece_at_pos(self, pos_i: int, pos_j: int, is_white: bool) -> bool:
+        obj_at_pos = self.board[pos_i][pos_j]
+        if isinstance(obj_at_pos, piece.Piece) and obj_at_pos.is_white == is_white:
+            return True
+        return False
+
+    
+    # This method check if a square is already targeted
+    def is_square_targeted(self, is_attacker_white: bool, square_i: int, square_j: int) -> bool:
+        # A list that contains all the possible moves of the attacker team
+        allowed_moves_and_captures = []
+        # Loop to get all the rows of the board
+        for row in self.board:
+            # Loop to get all the square of a row
+            for square in row:
+                # Check to see if there is a piece on the square
+                if isinstance(square, piece.Piece) and not isinstance(square, king.King):
+                    # Check to see if the found piece is in the attacker team
+                    if square.is_white == is_attacker_white:
+                        # Adding all the possible moves of the piece to the list
+                        allowed_moves_and_captures.extend(square.get_allowed_poses(self))
+                        allowed_moves_and_captures.extend(square.get_allowed_captures(self))
+                        # print(f"""
+                        #     piece: {square}, iswhite {square.is_white}
+                        #     square.get_allowed_poses(self): {square.get_allowed_poses(self)}
+                        #     square.get_allowed_captures(self): {square.get_allowed_captures(self)}""")
+        # Check to see if the square is under the attack
+        if [square_i, square_j] in allowed_moves_and_captures:
+            return True
+        else:
+            return False
+        
+    # This method draws the raw-empty board on the screen
+    def draw_empty_board(self) -> None:
+
+        for i in range(8):
+            for j in range(8):
+                if (i + j) % 2 == 0:
+                   color = colors[1]
+                else:
+                   color = colors[0]
+                
+                square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
+                pygame.draw.rect(window, color, square_rect)
+
+    # This method draws all the pieces on the empty board
+    def draw_pieces_on_board(self) -> None: 
+        for i in range(8):
+            for j in range(8):
+                current_piece = self.board[i][j]
+                
+                # Checking if it's piece
+                if isinstance(current_piece, piece.Piece):
+                    window.blit(current_piece.image, pygame.Rect(j * square_size, i * square_size, square_size, square_size))
+
+    def draw_allowed_moves(self, allowed_moves: list[list]) -> None:
+        for l in allowed_moves:
+            i, j = l[0], l[1]
+            square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
+            pygame.draw.rect(window, colors[2], square_rect, 5)
+            pygame.display.update()
+
+    def draw_allowed_captures(self, allowed_captures: list[list]) -> None:
+        for l in allowed_captures:
+            i, j = l[0], l[1]
+            square_rect = pygame.Rect(j * square_size, i * square_size, square_size, square_size)
+            pygame.draw.rect(window, colors[3], square_rect, 5)
+            pygame.display.update()
+
+    # This methods finds king of an specific team 
+    def find_king(self, is_king_white: bool) -> king.King:
+        for row in self.board:
+            for square in row:
+                # Check if it's a king
+                if isinstance(square, king.King):
+                    # Check if it's color is the same thing
+                    if square.is_white == is_king_white:
+                        return square
+                    
+    def is_king_checked(self, is_king_white: bool) -> bool:
+        king = self.find_king(is_king_white)
+        # print(f"is_white: {is_king_white}, i: {king.i}, j: {king.j}")
+        return self.is_square_targeted(not king.is_white, king.i, king.j)
+    
+    def is_king_check_mated(self, is_king_white: bool) -> bool:
+
+        king = self.find_king(is_king_white)
+        # Checking all 8 directions (top left, top, top right, right, bottom right, bottom, bottom left, left)
+        # Top left
+        if 0 <= king.i - 1 <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i - 1, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j - 1):
+            return False
+        
+        # Top
+        elif 0 <= king.i - 1 <= 7 and 0 <= king.j <= 7 and not self.is_piece_at_pos(king.i - 1, king.j) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j):
+            return False
+        
+        # Top right
+        elif 0 <= king.i - 1 <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i - 1, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j + 1):
+            return False
+        
+        # Right
+        elif 0 <= king.i <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i, king.j + 1):
+            return False
+        
+        # Bottom right
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i + 1, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j + 1):
+            return False
+        
+        # Bottom
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j <= 7 and not self.is_piece_at_pos(king.i + 1, king.j) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j):
+            return False
+        
+        # Bottom left
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i + 1, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j - 1):
+            return False
+
+        # Left
+        elif 0 <= king.i <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i, king.j - 1):
+            return False
+        
+        return True
+
+            
+    def switch_turn(self):
+        if self.is_white_turn:
+            self.is_white_turn = False
+        else:
+            self.is_white_turn = True
+        
+    def find_piece(self, find_mouse) -> None:
+        
+        i = find_mouse[1] // 64 #it requires for row part
+        j = find_mouse[0] // 64 #it requires for column part    or (i,j)
+        
+        # Getting the selected square
+        selected_piece = self.get_peice_at_pos(i, j)
+       
+        # Check if it's a piece
+        if isinstance(selected_piece, piece.Piece):
+            # Check if it has premission to move the piece
+            if self.is_white_turn == selected_piece.is_white:
+                # Calculating all the possible moves and captures
+                allowed_poses = selected_piece.get_allowed_poses(self)
+                allowed_captures = selected_piece.get_allowed_captures(self)
+
+                # Checking if it's not empty
+                if allowed_captures != [] or allowed_poses != []:            
+                    # Drawing all the possible moves for the piece
+                    self.draw_allowed_moves(allowed_poses)
+                    # Drawing all the possible captures for the piece
+                    self.draw_allowed_captures(allowed_captures)
+                    has_selected_any_square = False
+
+                    while not has_selected_any_square:
+                        for event in pygame.event.get():
+                            if event.type == pygame.MOUSEBUTTONDOWN:
+                                select_mouse = pygame.mouse.get_pos()
+
+                                new_i = select_mouse[1] // 64
+                                new_j = select_mouse[0] // 64
+                                
+                                if selected_piece.is_allowed_pos(self, new_i, new_j):
+                                    selected_piece.move_to_position(self, new_i, new_j)
+                                    has_selected_any_square = True      
+                                elif selected_piece.is_allowed_capture(self, new_i, new_j):
+                                    selected_piece.capture(self, new_i, new_j, self.get_peice_at_pos(new_i, new_j))
+                                    has_selected_any_square = True
+
+                # Check if the white king is targeted
+                if self.is_king_checked(is_king_white= True):
+                    white_king = self.find_king(is_king_white= True)
+                    white_king.toggle_check()
+                    if self.is_king_check_mated(is_king_white= True):
+                        white_king.check_mate()
+                        self.is_finished = True
+                
+                # Check if the black king is targeted
+                if self.is_king_checked(is_king_white= False):
+                    black_king = self.find_king(is_king_white= False)
+                    black_king.toggle_check()
+                    if self.is_king_check_mated(is_king_white= False):
+                        black_king.check_mate()
+                        self.is_finished = True
+                
+                # Switch turns
+                self.switch_turn()
