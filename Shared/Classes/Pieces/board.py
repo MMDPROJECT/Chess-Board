@@ -3,6 +3,8 @@ from __future__ import annotations
 import sys
 import os
 import pygame
+import numpy as np
+sys.path.append(os.getcwd() + "/Pieces")
 
 import piece
 import pawn
@@ -19,7 +21,7 @@ square_size = 64
 colors = [(192, 192, 164), (96, 64, 32), (252, 173, 3), (255, 0, 0), (7, 3, 252)] 
 # Width and Height of the board
 width, height = 512,512
-window = pygame.display.set_mode((width, height))
+window = pygame.display.set_mode((600,512))
 
 class Board:
     def __init__(self):
@@ -166,6 +168,61 @@ class Board:
 
     
     # --------------------------------------------------- METHODS RELATED TO PROCESSING THE GAME ---------------------------------------------------             
+
+    # This methods finds king of an specific team 
+    def find_king(self, is_king_white: bool) -> king.King:
+        for row in self.board:
+            for square in row:
+                # Check if it's a king
+                if isinstance(square, king.King):
+                    # Check if it's color is the same thing
+                    if square.is_white == is_king_white:
+                        return square
+                    
+    def is_king_checked(self, is_king_white: bool) -> bool:
+        king = self.find_king(is_king_white)
+        # print(f"is_white: {is_king_white}, i: {king.i}, j: {king.j}")
+        return self.is_square_targeted(not king.is_white, king.i, king.j)
+    
+    def is_king_check_mated(self, is_king_white: bool) -> bool:
+
+        king = self.find_king(is_king_white)
+        # Checking all 8 directions (top left, top, top right, right, bottom right, bottom, bottom left, left)
+        # Top left
+        if 0 <= king.i - 1 <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i - 1, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j - 1):
+            return False
+        
+        # Top
+        elif 0 <= king.i - 1 <= 7 and 0 <= king.j <= 7 and not self.is_piece_at_pos(king.i - 1, king.j) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j):
+            return False
+        
+        # Top right
+        elif 0 <= king.i - 1 <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i - 1, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i - 1, king.j + 1):
+            return False
+        
+        # Right
+        elif 0 <= king.i <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i, king.j + 1):
+            return False
+        
+        # Bottom right
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j + 1 <= 7 and not self.is_piece_at_pos(king.i + 1, king.j + 1) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j + 1):
+            return False
+        
+        # Bottom
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j <= 7 and not self.is_piece_at_pos(king.i + 1, king.j) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j):
+            return False
+        
+        # Bottom left
+        elif 0 <= king.i + 1 <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i + 1, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i + 1, king.j - 1):
+            return False
+
+        # Left
+        elif 0 <= king.i <= 7 and 0 <= king.j - 1 <= 7 and not self.is_piece_at_pos(king.i, king.j - 1) and not self.is_square_targeted(not king.is_white, king.i, king.j - 1):
+            return False
+        
+        return True
+
+            
     def switch_turn(self):
         if self.is_white_turn:
             self.is_white_turn = False
@@ -255,3 +312,22 @@ class Board:
                     
                     # Switch turns
                     self.switch_turn()
+
+                # Check if the white king is targeted
+                if self.is_king_checked(is_king_white= True):
+                    white_king = self.find_king(is_king_white= True)
+                    white_king.toggle_check()
+                    if self.is_king_check_mated(is_king_white= True):
+                        white_king.check_mate()
+                        self.is_finished = True
+                
+                # Check if the black king is targeted
+                if self.is_king_checked(is_king_white= False):
+                    black_king = self.find_king(is_king_white= False)
+                    black_king.toggle_check()
+                    if self.is_king_check_mated(is_king_white= False):
+                        black_king.check_mate()
+                        self.is_finished = True
+                
+                # Switch turns
+                self.switch_turn()
