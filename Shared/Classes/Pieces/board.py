@@ -233,7 +233,7 @@ class Board:
         
         i = find_mouse[1] // 64 #it requires for row part
         j = find_mouse[0] // 64 #it requires for column part    or (i,j)
-        
+        print(f"selected square {(i, j)}")
         # Getting the selected square
         selected_piece = self.get_piece_at_pos(i, j)
        
@@ -286,15 +286,23 @@ class Board:
                                 if selected_piece.is_allowed_pos(self, new_i, new_j):
                                     selected_piece.move_to_position(self, new_i, new_j)
                                     has_selected_any_square = True      
+                                    # Switch turns
+                                    self.switch_turn()
                                 elif selected_piece.is_allowed_capture(self, new_i, new_j):
                                     selected_piece.capture(self, new_i, new_j, self.get_piece_at_pos(new_i, new_j))
                                     has_selected_any_square = True
+                                    # Switch turns
+                                    self.switch_turn()
                                 elif [new_i, new_j] in allowed_castle_moves:
                                     if new_j >= playing_team.king.j:
                                         playing_team.do_castle_move(True, self)
                                     else:
                                         playing_team.do_castle_move(False, self)
                                     has_selected_any_square = True
+                                    # Switch turns
+                                    self.switch_turn()
+                                else:
+                                    return 
 
                     # Check if the white king is targeted
                     if self.white_team.is_king_checked(self):
@@ -310,24 +318,21 @@ class Board:
                             self.black_team.check_mate()
                             self.is_finished = True
                     
-                    # Switch turns
-                    self.switch_turn()
-
                 # Check if the white king is targeted
-                if self.is_king_checked(is_king_white= True):
-                    white_king = self.find_king(is_king_white= True)
-                    white_king.toggle_check()
-                    if self.is_king_check_mated(is_king_white= True):
-                        white_king.check_mate()
-                        self.is_finished = True
+                # if self.is_king_checked(is_king_white= True):
+                #     white_king = self.find_king(is_king_white= True)
+                #     white_king.toggle_check()
+                #     if self.is_king_check_mated(is_king_white= True):
+                #         white_king.check_mate()
+                #         self.is_finished = True
                 
-                # Check if the black king is targeted
-                if self.is_king_checked(is_king_white= False):
-                    black_king = self.find_king(is_king_white= False)
-                    black_king.toggle_check()
-                    if self.is_king_check_mated(is_king_white= False):
-                        black_king.check_mate()
-                        self.is_finished = True
+                # # Check if the black king is targeted
+                # if self.is_king_checked(is_king_white= False):
+                #     black_king = self.find_king(is_king_white= False)
+                #     black_king.toggle_check()
+                #     if self.is_king_check_mated(is_king_white= False):
+                #         black_king.check_mate()
+                #         self.is_finished = True
                 
-                # Switch turns
-                self.switch_turn()
+                # # Switch turns
+                # self.switch_turn()
