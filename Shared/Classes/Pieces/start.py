@@ -1,4 +1,5 @@
 from __future__ import annotations
+import time
 
 import pygame
 import os
@@ -30,7 +31,7 @@ def main():
         pygame.display.update()
         clock.tick(60)
 
-        
+    time.sleep(10)
     pygame.quit()
 
 
