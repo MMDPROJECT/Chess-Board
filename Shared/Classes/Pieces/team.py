@@ -63,8 +63,10 @@ class Team:
 
             # Setting some special pieces 
             self.king = king_white
-            self.r_rook = rook_white_1
-            self.l_rook = rook_white_0
+            ''' Here right rook is assume to be the rook that is on the right hand side of the king,
+            when the king is looking towards the center of the chess from based on how it's team is oriented on the board, the same is true for the left rook '''
+            self.r_rook = rook_white_0
+            self.l_rook = rook_white_1
 
             pieces.append(pawn_white_0)
             pieces.append(pawn_white_1)
@@ -112,6 +114,8 @@ class Team:
 
             # Setting the some special pieces 
             self.king = king_black
+            ''' Here right rook is assume to be the rook that is on the right hand side of the king,
+            when the king is looking towards the center of the chess from based on how it's team is oriented on the board, the same is true for the left rook '''
             self.r_rook = rook_black_1
             self.l_rook = rook_black_0
 
@@ -183,31 +187,79 @@ class Team:
 
         # Checking for right castle move
         if not self.r_rook.has_moved and not self.king.has_moved:
-            # Check to make sure all the squares are empty between
-            if not board.is_piece_at_pos(self.king.i, self.king.j + 1) and not board.is_piece_at_pos(self.king.i, self.king.j + 2):
-                # Check to make sure none of the squares is targeted by enemy pieces
-                if not board.is_square_targeted(not self.is_white, self.king.i, self.king.j) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 1) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 2) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 3):
-                    available_castle_moves.append([self.king.i, self.king.j + 2])
+            # If it's the white team doing the castle move:
+            if self.is_white:
+                # Checking to make sure all the squares are empty in between
+                if not board.is_piece_at_pos(self.king.i, self.king.j - 1) and not board.is_piece_at_pos(self.king.i, self.king.j - 2) and not board.is_piece_at_pos(self.king.i, self.king.j - 3):
+                    # Checking to see if the king is checked
+                    if not self.is_checked:
+                        # Check to make sure none of the squares is targeted by enemy pieces
+                        if not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 1) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 2):
+                            available_castle_moves.append([self.king.i, self.king.j - 2])
+
+            # Otherwise it's the black team doing the castle move:
+            else:
+                # Checking to make sure all the squares are empty in between
+                if not board.is_piece_at_pos(self.king.i, self.king.j + 1) and not board.is_piece_at_pos(self.king.i, self.king.j + 2):
+                    # Checking to see if the king is checked
+                    if not self.is_checked:
+                        # Check to make sure none of the squares is targeted by enemy pieces
+                        if not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 1) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 2):
+                            available_castle_moves.append([self.king.i, self.king.j + 2])
 
         # Checking for left castle move
         if not self.l_rook.has_moved and not self.king.has_moved:
-            # Check to make sure all the squares are empty between
-            if not board.is_piece_at_pos(self.king.i, self.king.j - 1) and not board.is_piece_at_pos(self.king.i, self.king.j - 2) and not board.is_piece_at_pos(self.king.i, self.king.j - 3):
-                # Check to make sure none of the squares is targeted by enemy pieces
-                if not board.is_square_targeted(not self.is_white, self.king.i, self.king.j) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 1) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 2) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 3) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 4):
-                    available_castle_moves.append([self.king.i, self.king.j - 2])
-            
+            # If it's the white team doing the castle move:
+            if self.is_white:
+                # Checking to make sure all the squares are empty in between
+                if not board.is_piece_at_pos(self.king.i, self.king.j + 1) and not board.is_piece_at_pos(self.king.i, self.king.j + 2):
+                    # Checking to see if the king is checked
+                    if not self.is_checked:
+                        # Check to make sure none of the squares is targeted by enemy pieces
+                        if not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 1) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j + 2):
+                            available_castle_moves.append([self.king.i, self.king.j + 2])
+
+            # Otherwise it's the black team doing the castle move:
+            else:
+                # Checking to make sure all the squares are empty in between
+                if not board.is_piece_at_pos(self.king.i, self.king.j - 1) and not board.is_piece_at_pos(self.king.i, self.king.j - 2) and not board.is_piece_at_pos(self.king.i, self.king.j - 3):
+                    # Checking to see if the king is checked
+                    if not self.is_checked:
+                        # Check to make sure none of the squares is targeted by enemy pieces
+                        if not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 1) and not board.is_square_targeted(not self.is_white, self.king.i, self.king.j - 2):
+                            available_castle_moves.append([self.king.i, self.king.j - 2])
+
         return available_castle_moves
 
     def do_castle_move(self, is_right_castle_move: bool, board: board.Board):
-        # If it's right castle move
+        # if it's a right castle move
         if is_right_castle_move:
-            self.king.move_to_position(board, self.king.i, self.king.j + 2)
-            self.r_rook.move_to_position(board, self.r_rook.i, self.r_rook.j - 2)
-        # Other-wise it's left castle move
+            print("right castle ", end= "")
+            # if the moving team is white
+            if self.is_white:
+                print("for the white team")
+                self.king.move_to_position(board, self.king.i, self.king.j - 2)
+                self.r_rook.move_to_position(board, self.r_rook.i, self.r_rook.j + 3)
+            # otherwise the moving team is black
+            else:
+                print("for the black team")
+                self.king.move_to_position(board, self.king.i, self.king.j + 2)
+                self.r_rook.move_to_position(board, self.r_rook.i, self.r_rook.j - 2)
+        # otherwise it's a left castle move
         else:
-            self.king.move_to_position(board, self.king.i, self.king.j - 2)
-            self.r_rook.move_to_position(board, self.r_rook.i, self.r_rook.j + 3)
+            print("left castle ", end= "")
+            # if the moving team is white
+            if self.is_white:
+                print("for the white team")
+                print(f"initial poses {(self.king.i)}, {(self.king.j)}, {(self.l_rook.i)}, {(self.l_rook.j)}, {(self.r_rook.i)}, {(self.r_rook.j)}")
+                self.king.move_to_position(board, self.king.i, self.king.j + 2)
+                self.l_rook.move_to_position(board, self.l_rook.i, self.l_rook.j - 2)
+                print(f"final poses {(self.king.i)}, {(self.king.j)}, {(self.l_rook.i)}, {(self.l_rook.j)}, {(self.r_rook.i)}, {(self.r_rook.j)}")
+            # otherwise the moving team is black
+            else:
+                print("for the black team")
+                self.king.move_to_position(board, self.king.i, self.king.j - 2)
+                self.l_rook.move_to_position(board, self.l_rook.i, self.l_rook.j + 3)
 
     # This will change 'is_checked' state of the team
     def set_check_status(self, is_checked: bool) -> None:

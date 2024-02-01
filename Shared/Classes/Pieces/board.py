@@ -233,7 +233,6 @@ class Board:
         
         i = find_mouse[1] // 64 #it requires for row part
         j = find_mouse[0] // 64 #it requires for column part    or (i,j)
-        print(f"selected square {(i, j)}")
         # Getting the selected square
         selected_piece = self.get_piece_at_pos(i, j)
        
@@ -265,7 +264,7 @@ class Board:
                     allowed_castle_moves = playing_team.get_available_castle_moves(self)
 
                 # Checking if it's not empty
-                if allowed_captures != [] or allowed_poses != [] or allowed_castle_moves != []:            
+                if allowed_captures != [] or allowed_poses != [] or allowed_castle_moves != []: 
                     # Drawing all the possible moves for the piece
                     self.draw_allowed_moves(allowed_poses)
                     # Drawing all the possible captures for the piece
@@ -294,10 +293,18 @@ class Board:
                                     # Switch turns
                                     self.switch_turn()
                                 elif [new_i, new_j] in allowed_castle_moves:
-                                    if new_j >= playing_team.king.j:
-                                        playing_team.do_castle_move(True, self)
-                                    else:
-                                        playing_team.do_castle_move(False, self)
+                                    if [new_i, new_j] == [0, 2]: 
+                                        # Right castle for the white team
+                                        self.white_team.do_castle_move(True, self)
+                                    elif [new_i, new_j] == [7, 6]:
+                                        # Right castle for the black team
+                                        self.black_team.do_castle_move(True, self)
+                                    elif [new_i, new_j] == [0, 6]:
+                                        # Left castle for the white team
+                                        self.white_team.do_castle_move(False, self)
+                                    elif [new_i, new_j] == [7, 2]:
+                                        # Left castle for the black team
+                                        self.black_team.do_castle_move(False, self)
                                     has_selected_any_square = True
                                     # Switch turns
                                     self.switch_turn()
@@ -310,6 +317,8 @@ class Board:
                         if self.white_team.is_king_check_mated(self):
                             self.white_team.check_mate()
                             self.is_finished = True
+                    else:
+                        self.white_team.set_check_status(is_checked= False)
                     
                     # Check if the black king is targeted
                     if self.black_team.is_king_checked(self):
@@ -317,6 +326,9 @@ class Board:
                         if self.black_team.is_king_check_mated(self):
                             self.black_team.check_mate()
                             self.is_finished = True
+                    else:
+                        self.black_team.set_check_status(is_checked= False)
+                    
                     
                 # Check if the white king is targeted
                 # if self.is_king_checked(is_king_white= True):
