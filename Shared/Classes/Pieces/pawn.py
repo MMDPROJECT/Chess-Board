@@ -30,12 +30,12 @@ class Pawn(piece.Piece):
         self.has_moved = True
 
         if (self.is_white == True and self.i == 7) or (self.is_white == False and self.i == 0):
-            # print("""Please choose one of these options:
-            #           1. Rook
-            #           2. Knight
-            #           3. Queen
-            #           4. Bishop""")
-            piece_to_promote_to = "queen" # This should be prompt you know? :)
+            print("""Please choose one of these options:
+                      1. Rook
+                      2. Knight
+                      3. Queen
+                      4. Bishop""")
+            piece_to_promote_to = input() # This should be prompt you know? :)
             self.promote(piece_to_promote_to, board)
 
     
@@ -93,25 +93,25 @@ class Pawn(piece.Piece):
     
     def promote(self, piece_to_promote_to: str, board: board.Board):
         match piece_to_promote_to:
-            case "rook":
+            case "Rook":
                 if self.is_white:
                     self = rook.Rook(self.i, self.j, self.is_white, team.dict_images["white_rook"])
                 else:
                     self = rook.Rook(self.i, self.j, self.is_white, team.dict_images["black_rook"])
 
-            case "knight":
+            case "Knight":
                 if self.is_white:
                     self = knight.Knight(self.i, self.j, self.is_white, team.dict_images["white_knight"])
                 else:
                     self = knight.Knight(self.i, self.j, self.is_white, team.dict_images["black_knight"])
 
-            case "bishop":
+            case "Bishop":
                 if self.is_white:
                     self = bishop.Bishop(self.i, self.j, self.is_white, team.dict_images["white_bishop"])
                 else:
                     self = bishop.Bishop(self.i, self.j, self.is_white, team.dict_images["black_bishop"])
 
-            case "queen":
+            case "Queen":
                 if self.is_white:
                     self = queen.Queen(self.i, self.j, self.is_white, team.dict_images["white_queen"])
                 else:
