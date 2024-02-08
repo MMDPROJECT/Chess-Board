@@ -1,9 +1,14 @@
 import flet as ft
+import importlib.util
 
 
 class NewGame(ft.UserControl):
     def __init__(self, page):
         super().__init__()
+        module_path = "Shared/Classes/Pieces/start.py"
+        self.spec = importlib.util.spec_from_file_location("start", module_path)
+        self.start_module = importlib.util.module_from_spec(self.spec)
+
         self.page = page
         self.all_data = ft.Column()
         self.player1_black = ft.TextField(
@@ -25,8 +30,6 @@ class NewGame(ft.UserControl):
         return ft.Column(
             controls=[
                 ft.Container(
-                    # height=800,width=800,
-                    # bgcolor='dark blue',
                     content=ft.Column(
                         controls=[
                             ft.Text(
@@ -37,12 +40,6 @@ class NewGame(ft.UserControl):
                                             size=50,
                                             weight=ft.FontWeight.BOLD,
                                         ),
-                                    ),
-                                    ft.Image(
-                                        src="Shared/Classes/Image/player1_color.png",
-                                        width=550,
-                                        height=100,
-                                        fit=ft.ImageFit.CONTAIN,
                                     ),
                                 ],
                             ),
@@ -74,9 +71,9 @@ class NewGame(ft.UserControl):
                                     ),
                                     height=42,
                                     width=320,
-                                    # on_click=lambda _: page.go(
-                                    #     "location start"
-                                    # ),  # TODO
+                                    on_click=lambda _: (
+                                        self.spec.loader.exec_module(self.start_module)
+                                    ),
                                 ),
                             ),
                         ],
