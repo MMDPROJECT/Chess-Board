@@ -1,14 +1,13 @@
 import flet as ft
 import importlib.util
+import os
+
+# from Shared.Classes.Pieces import start
 
 
 class NewGame(ft.UserControl):
     def __init__(self, page):
         super().__init__()
-        module_path = "Shared/Classes/Pieces/start.py"
-        self.spec = importlib.util.spec_from_file_location("start", module_path)
-        self.start_module = importlib.util.module_from_spec(self.spec)
-
         self.page = page
         self.all_data = ft.Column()
         self.player1_black = ft.TextField(
@@ -71,9 +70,7 @@ class NewGame(ft.UserControl):
                                     ),
                                     height=42,
                                     width=320,
-                                    on_click=lambda _: (
-                                        self.spec.loader.exec_module(self.start_module)
-                                    ),
+                                    on_click=lambda _: self.start_game(),
                                 ),
                             ),
                         ],
@@ -81,3 +78,12 @@ class NewGame(ft.UserControl):
                 )
             ]
         )
+
+    def start_game(self):
+        player1 = self.player1_black
+        player2 = self.player2_white
+        source_folder = "Shared/Classes/Pieces/start.py"
+        # os.system("python3 start.py")
+        with open("C:Shared/Classes/Pieces/start.py") as f:
+            exec(f.read())
+        # start(player1, player2)
