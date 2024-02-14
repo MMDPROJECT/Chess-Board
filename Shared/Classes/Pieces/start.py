@@ -37,4 +37,5 @@ def main(player1, player2):
 
 
 if __name__ == "__main__":
+    # TODO Undefined variables :/
     main(palyer1, player2)

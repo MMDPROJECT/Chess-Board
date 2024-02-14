@@ -1,6 +1,9 @@
+from tracemalloc import start
 import flet as ft
 import importlib.util
 import os
+
+import subprocess
 
 # from Shared.Classes.Pieces import start
 
@@ -82,8 +85,8 @@ class NewGame(ft.UserControl):
     def start_game(self):
         player1 = self.player1_black
         player2 = self.player2_white
-        source_folder = "Shared/Classes/Pieces/start.py"
-        # os.system("python3 start.py")
-        with open("C:Shared/Classes/Pieces/start.py") as f:
-            exec(f.read())
+        # Get the path of the current script
+        project_dir_to_start_path = os.path.sep.join("\Chess-Board\Shared\Classes\Pieces\start.py".split("\\"))
+        abs_start_path = os.path.dirname(os.getcwd()) + project_dir_to_start_path
+        subprocess.run(["python", abs_start_path])
         # start(player1, player2)
